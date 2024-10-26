@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:QuizWPF"
-        xmlns:view="clr-namespace:QuizWPF.View"
+        xmlns:view="clr-namespace:QuizWPF.View" 
+        xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="920" WindowStyle="None" ResizeMode="NoResize" Background="Transparent" AllowsTransparency="True" >
     <Window.InputBindings>
@@ -13,72 +15,98 @@
     </Window.InputBindings>
 
     <Border Background="WhiteSmoke"
-            CornerRadius="20">
-        
+            CornerRadius="15">
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75"/>
+                <RowDefinition Height="1"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-
-            <Grid Grid.Column="1" x:Name="ContentGrid" Background="Transparent"/>
-
-            <TextBlock Text="Quizzmo"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"
-                   Foreground="Black"
-                   FontSize="32" FontFamily="Courier New" Grid.Column="1" Margin="26,0,0,0" />
-
-            <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="1"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
+            <Border Grid.Row="0" Grid.Column="1" Background="LightGray"></Border>
+            <Border Grid.Row="1" Grid.Column="2" Background="LightGray"></Border>
+            <Border Grid.Row="2" Grid.Column="1" Background="LightGray"></Border>
+            <TextBlock  Grid.Column="2"
+                   Text="Quizzimo"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   Foreground="Black"
+                   FontSize="40" FontFamily="Courier New" Margin="25,0,0,0" />
+            <Grid Grid.Column="2" x:Name="ContentGrid" Background="Transparent"/>
 
-                <StackPanel Grid.Row="1" VerticalAlignment="Center" Height="375">
+            <Grid Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <StackPanel HorizontalAlignment="Right">
                     <ui:Button
-                    BorderThickness="0"
-                    Appearance="Transparent"
-                    FontSize="42"
-                    Icon="{ui:SymbolIcon Symbol=Home20}" 
-                    Height="75"
-                    Width="75"
-                    CornerRadius="0" 
-                    MouseOverBackground="LightGray">
+                        BorderThickness="0"
+                        Appearance="Transparent"
+                        FontSize="42"
+                        Icon="{ui:SymbolIcon Symbol=ArrowExit20}" 
+                        Height="75"
+                        Width="75" 
+                        CornerRadius="0 15 0 0 "
+                        MouseOverBackground="Red"
+                        Command="{Binding ExitButtonCommand}">
                     </ui:Button>
-                    <ui:Button
-                    BorderThickness="0"
-                    Appearance="Transparent"
-                    FontSize="42"
-                    Icon="{ui:SymbolIcon Symbol=Play20}" 
-                    Height="75"
-                    Width="75"
-                    CornerRadius="0"
-                    MouseOverBackground="LightGray">
-                    </ui:Button>
-                    <ui:Button
-                    BorderThickness="0"
-                    Appearance="Transparent"
-                    FontSize="42"
-                    Icon="{ui:SymbolIcon Symbol=Settings20}" 
-                    Height="75"
-                    Width="75"
-                    CornerRadius="0"
-                    MouseOverBackground="LightGray">
-                    </ui:Button>
-                    <ui:Button
-                    BorderThickness="0"
-                    Appearance="Transparent"
-                    FontSize="42"
-                    Icon="{ui:SymbolIcon Symbol=ArrowExit20}" 
-                    Height="75"
-                    Width="75" 
-                    CornerRadius="0"
-                    MouseOverBackground="LightGray"/>
                 </StackPanel>
-                <Border Grid.Column="1" CornerRadius="25" Background="LightGray" Margin="0 0 10 10 ">
-                    <view:PlayerView Margin="25"></view:PlayerView>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="0">
+                <StackPanel Grid.Row="1" VerticalAlignment="Top">
+                    <ui:Button
+                        BorderThickness="0"
+                        Appearance="Transparent"
+                        FontSize="42"
+                        Icon="{ui:SymbolIcon Symbol=Home20}" 
+                        Height="75"
+                        Width="75"
+                        CornerRadius="0" 
+                        MouseOverBackground="LightGray"
+                        Command="{Binding HomeButtonCommand}">
+                        <ui:Button.Style>
+                            <Style TargetType="ui:Button">
+                                <Setter Property="Appearance" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                        <!-- Change to your desired color -->
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:Button.Style>
+                    </ui:Button>
+
+                    <ui:Button
+                        BorderThickness="0"
+                        Appearance="Transparent"
+                        FontSize="42"
+                        Icon="{ui:SymbolIcon Symbol=Play20}" 
+                        Height="75"
+                        Width="75"
+                        CornerRadius="0"
+                        MouseOverBackground="LightGray"
+                        Command="{Binding PlayButtonCommand}"/>
+
+                    <ui:Button
+                        BorderThickness="0"
+                        Appearance="Transparent"
+                        FontSize="42"
+                        Icon="{ui:SymbolIcon Symbol=Settings20}" 
+                        Height="75"
+                        Width="75"
+                        CornerRadius="0"
+                        MouseOverBackground="LightGray"/>
+
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Border CornerRadius="5 5 15 5" Background="LightGray" Margin="10">
+                    <ContentControl x:Name="MainContent" Margin="10" Content="{Binding CurrentView}" />
                 </Border>
             </Grid>
         </Grid>
