@@ -9,29 +9,24 @@ namespace QuizWPF.ViewModel;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public MainWindowViewModel()
-    {
-        ConfigurationViewModel = new ConfigurationViewModel(this);
-        
-        PlayerViewModel = new PlayerViewModel(this);
-        
-        ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
-
-        CurrentView = new HomeView();
-
-        HomeButtonCommand = new DelegateCommand(HomeButton);
-        PlayButtonCommand = new DelegateCommand(PlayButton);
-        ExitButtonCommand = new DelegateCommand(ExitButton);
-
-
-    }
+    public DelegateCommand HomeButtonCommand { get; }
+    public DelegateCommand PlayButtonCommand { get; }
+    public DelegateCommand ExitButtonCommand { get; }
     public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
     public ConfigurationViewModel ConfigurationViewModel { get; }
     public PlayerViewModel? PlayerViewModel { get; }
-
-    private QuestionPackViewModel? _activePack;
-
     private UserControl _currentView;
+    private QuestionPackViewModel? _activePack;
+    public MainWindowViewModel()
+    {
+        ConfigurationViewModel = new ConfigurationViewModel(this);
+        PlayerViewModel = new PlayerViewModel(this);
+        ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
+        CurrentView = new HomeView();
+        HomeButtonCommand = new DelegateCommand(HomeButton);
+        PlayButtonCommand = new DelegateCommand(PlayButton);
+        ExitButtonCommand = new DelegateCommand(ExitButton);
+    }
     public UserControl CurrentView
     {
         get => _currentView;
@@ -51,11 +46,6 @@ public class MainWindowViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-
-    public DelegateCommand HomeButtonCommand { get; }
-    public DelegateCommand PlayButtonCommand { get; }
-    public DelegateCommand ExitButtonCommand { get; }
-
 
     private bool CanUpdateButton()
     {

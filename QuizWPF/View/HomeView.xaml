@@ -6,8 +6,15 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:local="clr-namespace:QuizWPF.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <ui:CardExpander />
+             d:DesignHeight="515" d:DesignWidth="835">
+    <Grid Background="#202937">
+        <StackPanel>
+            <TextBlock Text="Guide:"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Center"
+                       Foreground="WhiteSmoke"
+                       FontSize="25" 
+                       Margin="25" FontFamily="Sitka Text" />
+        </StackPanel>
     </Grid>
 </UserControl>
