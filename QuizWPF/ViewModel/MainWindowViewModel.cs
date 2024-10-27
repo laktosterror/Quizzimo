@@ -26,7 +26,7 @@ public class MainWindowViewModel : ViewModelBase
         CurrentView = new HomeView();
         ShowHomeViewCommand = new DelegateCommand(ShowHomeView);
         ShowPlayViewCommand = new DelegateCommand(ShowPlayView);
-        ShowConfigurationViewCommand = new DelegateCommand(ShowPlayView);
+        ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
         ExitApplicationCommand = new DelegateCommand(ExitApplication);
     }
     public UserControl CurrentView
@@ -48,7 +48,6 @@ public class MainWindowViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-
     private bool CanUpdateButton()
     {
         return true;
@@ -66,7 +65,6 @@ public class MainWindowViewModel : ViewModelBase
     {
         CurrentView = new ConfigurationView();
     }
-
     private void ExitApplication(object obj)
     {
         Application.Current.Shutdown(); // This will close the application
