@@ -3,20 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:local="clr-namespace:QuizWPF.View" xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="515" d:DesignWidth="835">
     <Grid>
-        <TextBlock Text="nothing" />
-        <Button Grid.Row="1"
-                Width="200"
-                Height="100"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Content="Submit!"
-                Margin="10"
-                Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
-
-        <TextBlock HorizontalAlignment="Right" Text="{Binding PlayerViewModel.TestData}" />
+        <StackPanel>
+            <TextBlock Text="Play:"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Center"
+                       Foreground="WhiteSmoke"
+                       FontSize="25" 
+                       Margin="25" FontFamily="Sitka Text" />
+            <Button Grid.Row="1"
+                    Width="200"
+                    Height="100"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Content="Submit!"
+                    Margin="10"
+                    Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+            
+            <TextBlock HorizontalAlignment="Right" Text="{Binding PlayerViewModel.TestData}" />
+        </StackPanel>
     </Grid>
 </UserControl>

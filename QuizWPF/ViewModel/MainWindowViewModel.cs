@@ -9,9 +9,10 @@ namespace QuizWPF.ViewModel;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public DelegateCommand HomeButtonCommand { get; }
-    public DelegateCommand PlayButtonCommand { get; }
-    public DelegateCommand ExitButtonCommand { get; }
+    public DelegateCommand ShowHomeViewCommand { get; }
+    public DelegateCommand ShowPlayViewCommand { get; }
+    public DelegateCommand ShowConfigurationViewCommand { get; }
+    public DelegateCommand ExitApplicationCommand { get; }
     public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
     public ConfigurationViewModel ConfigurationViewModel { get; }
     public PlayerViewModel? PlayerViewModel { get; }
@@ -23,9 +24,10 @@ public class MainWindowViewModel : ViewModelBase
         PlayerViewModel = new PlayerViewModel(this);
         ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
         CurrentView = new HomeView();
-        HomeButtonCommand = new DelegateCommand(HomeButton);
-        PlayButtonCommand = new DelegateCommand(PlayButton);
-        ExitButtonCommand = new DelegateCommand(ExitButton);
+        ShowHomeViewCommand = new DelegateCommand(ShowHomeView);
+        ShowPlayViewCommand = new DelegateCommand(ShowPlayView);
+        ShowConfigurationViewCommand = new DelegateCommand(ShowPlayView);
+        ExitApplicationCommand = new DelegateCommand(ExitApplication);
     }
     public UserControl CurrentView
     {
@@ -52,16 +54,20 @@ public class MainWindowViewModel : ViewModelBase
         return true;
     }
 
-    private void HomeButton(object obj)
+    private void ShowHomeView(object obj)
     {
         CurrentView = new HomeView();
-    }  
-    private void PlayButton(object obj)
+    }
+    private void ShowPlayView(object obj)
     {
         CurrentView = new PlayerView();
     }
+    private void ShowConfigurationView(object obj)
+    {
+        CurrentView = new ConfigurationView();
+    }
 
-    private void ExitButton(object obj)
+    private void ExitApplication(object obj)
     {
         Application.Current.Shutdown(); // This will close the application
     }
