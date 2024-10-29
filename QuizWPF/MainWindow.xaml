@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:local="clr-namespace:QuizWPF"
-        xmlns:view="clr-namespace:QuizWPF.View" 
+        xmlns:view="clr-namespace:QuizWPF.View"
         xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" 
@@ -14,12 +15,9 @@
         WindowStyle="None" 
         ResizeMode="NoResize" 
         Background="Transparent" 
-        AllowsTransparency="True">
-    <Window.InputBindings>
-        <KeyBinding Key="M" Command="{Binding ShowMenuCommand}"/>
-    </Window.InputBindings>
+        AllowsTransparency="True"
+        MouseDown="Window_MouseDown">
 
-    
     <Border Background="WhiteSmoke"
             CornerRadius="25"
             Margin="5">
@@ -42,10 +40,22 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-
             <Border Grid.Row="0" Grid.Column="1" Background="LightGray"></Border>
             <Border Grid.Row="1" Grid.Column="2" Background="LightGray"></Border>
             <Border Grid.Row="2" Grid.Column="1" Background="LightGray"></Border>
+
+            <ui:Button Margin="10"
+                        BorderThickness="0"
+                        Appearance="Transparent"
+                        FontSize="38"
+                        Height="55"
+                        Width="55"
+                        CornerRadius="20 5 5 5" 
+                        MouseOverBackground="DarkOrange"
+                        Icon="{ui:SymbolIcon Symbol=CalendarAgenda20}" 
+                        Command="{Binding ShowMenuCommand}">
+            </ui:Button>
+
             <TextBlock  Grid.Column="2"
                         Text="Quizzimo"
                         VerticalAlignment="Center"
@@ -54,7 +64,7 @@
                         FontSize="46" FontFamily="Sitka Small" Margin="25,0,0,0" />
             <Grid Grid.Row="0" Grid.Column="2" x:Name="ContentGrid" Background="Transparent"/>
 
-            <Border x:Name="FocusableMenuView"
+            <Border x:Name="CollapsibleMenuView"
                     Grid.Row="0" 
                     Grid.Column="2" 
                     Background="LightGray" 
@@ -62,7 +72,8 @@
                     Margin="10 10 75 0"
                     Height="55" 
                     VerticalAlignment="Top"
-                    Visibility="Collapsed">
+                    Visibility="{Binding CollapsibleMenuVisibility}"
+                    MouseDown="CollapsibleMenuView_MouseDown">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" 
                                 Direction="-90"
@@ -80,7 +91,7 @@
                                 FontSize="38"
                                 Height="55"
                                 Width="55"
-                                CornerRadius="5 22 5 5" 
+                                CornerRadius="5 20 5 5" 
                                 MouseOverBackground="Red"
                                 Icon="{ui:SymbolIcon Symbol=ArrowExit20}" 
                                 Command="{Binding ExitApplicationCommand}">
@@ -90,23 +101,6 @@
 
             <Grid Grid.Row="2" Grid.Column="0">
                 <StackPanel Grid.Row="1" VerticalAlignment="Top">
-                    <ui:Button  ToolTip="View start screen."
-                                ToolTipService.InitialShowDelay="100"
-                                ToolTipService.Placement="Right"
-                                ToolTipService.HorizontalOffset="26.5"
-                                ToolTipService.VerticalOffset="6"
-                                Margin="10"
-                                BorderThickness="0"
-                                Appearance="Transparent"
-                                FontSize="38"
-                                Height="55"
-                                Width="55"
-                                CornerRadius="5" 
-                                MouseOverBackground="DarkOrange"
-                                Icon="{ui:SymbolIcon Symbol=Home20}" 
-                                Command="{Binding ShowHomeViewCommand}">
-                    </ui:Button>
-
                     <ui:Button  ToolTip="Start quiz game!"
                                 ToolTipService.InitialShowDelay="100"
                                 ToolTipService.Placement="Right"
@@ -157,9 +151,9 @@
                     </ui:Button>
                 </StackPanel>
             </Grid>
-            
+
             <Grid Grid.Row="2" Grid.Column="2">
-                <Border CornerRadius="5 5 22 5" Background="#202937" Margin="10">
+                <Border CornerRadius="5 5 20 5" Background="#202937" Margin="10">
                     <ContentControl x:Name="MainContent" Margin="10" Content="{Binding CurrentView}" />
                 </Border>
             </Grid>

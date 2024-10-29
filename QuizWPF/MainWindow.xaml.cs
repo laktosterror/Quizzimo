@@ -31,4 +31,15 @@ public partial class MainWindow : Window
     {
         DragMove();
     }
+    private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        // Collapse the FocusableMenuView when clicking anywhere in the window
+        var viewModel = (MainWindowViewModel)DataContext;
+        viewModel.CollapsibleMenuVisibility = Visibility.Collapsed;
+    }
+    private void CollapsibleMenuView_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        // Prevent the FocusableMenuView from collapsing when clicked
+        e.Handled = true; // Mark the event as handled
+    }
 }

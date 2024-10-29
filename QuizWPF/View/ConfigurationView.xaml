@@ -7,6 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="515" d:DesignWidth="835">
     <Grid Background="#202937">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
         <StackPanel>
             <TextBlock Text="Configuration:"
                        VerticalAlignment="Top"
@@ -15,5 +20,28 @@
                        FontSize="25"
                        Margin="25" FontFamily="Sitka Text" />
         </StackPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <ListBox ItemsSource="{Binding Questions}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="{Binding Age}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        
+        
+        
+        
+        
     </Grid>
 </UserControl>
