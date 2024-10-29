@@ -17,6 +17,18 @@
         Background="Transparent" 
         AllowsTransparency="True"
         MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <Style x:Key="CustomListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="DarkOrange"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
     <Border Background="WhiteSmoke"
             CornerRadius="25"
