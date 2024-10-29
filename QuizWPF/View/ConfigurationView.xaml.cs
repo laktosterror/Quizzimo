@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QuizWPF.ViewModel;
 
 namespace QuizWPF.View
 {
@@ -23,6 +24,7 @@ namespace QuizWPF.View
         public ConfigurationView()
         {
             InitializeComponent();
+            DataContext = new ConfigurationViewModel((MainWindowViewModel)Application.Current.MainWindow.DataContext);
         }
     }
 }

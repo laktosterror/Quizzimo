@@ -25,6 +25,9 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
+        ActivePack.Questions.Add(new Question("Whats a question?", "correct", "wrong", "wrong", "wrong"));
+        ActivePack.Questions.Add(new Question("test2", "correct2", "wrong2", "wrong2", "wrong2"));
+        ActivePack.Questions.Add(new Question("test3", "correct3", "wrong3", "wrong3", "wrong3"));
         Packs = [];
         Packs.Add(ActivePack);
         ConfigurationViewModel = new ConfigurationViewModel(this);
