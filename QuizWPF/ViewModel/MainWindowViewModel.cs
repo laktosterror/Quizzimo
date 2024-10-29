@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using QuizWPF.Command;
 using QuizWPF.Model;
 using QuizWPF.View;
@@ -11,7 +10,6 @@ namespace QuizWPF.ViewModel;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public DelegateCommand ShowHomeViewCommand { get; }
     public DelegateCommand ShowPlayViewCommand { get; }
     public DelegateCommand ShowConfigurationViewCommand { get; }
     public DelegateCommand ExitApplicationCommand { get; }
@@ -20,42 +18,38 @@ public class MainWindowViewModel : ViewModelBase
     public FileReader FileReader {get; set;}
     public ConfigurationViewModel ConfigurationViewModel { get; }
     public PlayerViewModel? PlayerViewModel { get; }
-    private UserControl _currentView;
+    private UserControl? _currentView;
     private QuestionPackViewModel? _activePack;
     private Visibility _collapsibleMenuVisibility;
 
     public MainWindowViewModel()
     {
+        ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
+        Packs = [];
+        Packs.Add(ActivePack);
         ConfigurationViewModel = new ConfigurationViewModel(this);
         PlayerViewModel = new PlayerViewModel(this);
-        ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
+
         CurrentView = new PlayerView();
         CollapsibleMenuVisibility = Visibility.Collapsed;
+
         FileReader = new FileReader(@"./data.json");
-        Packs = FileReader.ReadFromFile();
-        ShowHomeViewCommand = new DelegateCommand(ShowHomeView);
+        //Packs = FileReader.ReadFromFile();
         ShowPlayViewCommand = new DelegateCommand(ShowPlayView);
         ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
         ExitApplicationCommand = new DelegateCommand(ExitApplication);
         ShowMenuCommand = new DelegateCommand(ShowMenu);
     }
  
-    private void ShowMenu(object obj)
-    {
-        if (CollapsibleMenuVisibility == Visibility.Visible)
-        {
-            CollapsibleMenuVisibility = Visibility.Collapsed;
-        }
-        else
-        {
-            CollapsibleMenuVisibility = Visibility.Visible;
-        }
-    }
 
-    // Method to hide the menu
-    public void HideMenu()
+    public UserControl CurrentView
     {
-        CollapsibleMenuVisibility = Visibility.Collapsed;
+        get => _currentView;
+        set
+        {
+            _currentView = value;
+            RaisePropertyChanged();
+        }
     }
     public Visibility CollapsibleMenuVisibility
     {
@@ -63,15 +57,6 @@ public class MainWindowViewModel : ViewModelBase
         set
         {
             _collapsibleMenuVisibility = value;
-            RaisePropertyChanged();
-        }
-    }
-    public UserControl CurrentView
-    {
-        get => _currentView;
-        set
-        {
-            _currentView = value;
             RaisePropertyChanged();
         }
     }
@@ -85,15 +70,6 @@ public class MainWindowViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-    private bool CanUpdateButton()
-    {
-        return true;
-    }
-
-    private void ShowHomeView(object obj)
-    {
-        CurrentView = new HomeView();
-    }
     private void ShowPlayView(object obj)
     {
         CurrentView = new PlayerView();
@@ -102,6 +78,23 @@ public class MainWindowViewModel : ViewModelBase
     {
         CurrentView = new ConfigurationView();
     }
+    private void ShowMenu(object obj)
+    {
+        if (CollapsibleMenuVisibility == Visibility.Visible)
+        {
+            CollapsibleMenuVisibility = Visibility.Collapsed;
+        }
+        else
+        {
+            CollapsibleMenuVisibility = Visibility.Visible;
+        }
+    }
+
+    public void HideMenu()
+    {
+        CollapsibleMenuVisibility = Visibility.Collapsed;
+    }
+
     private void ExitApplication(object obj)
     {
         Application.Current.Shutdown(); // This will close the application
