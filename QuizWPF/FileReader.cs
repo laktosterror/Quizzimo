@@ -25,7 +25,10 @@ public class FileReader(string dataPath)
 
     public ObservableCollection<QuestionPackViewModel> ReadFromFile()
     {
-        if (!File.Exists(DataPath)) return null;
+        if (!File.Exists(DataPath))
+        {
+
+        }
         try
         {
             var json = File.ReadAllText(DataPath);

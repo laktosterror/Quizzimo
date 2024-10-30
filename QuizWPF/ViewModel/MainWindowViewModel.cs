@@ -24,6 +24,9 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        ConfigurationViewModel = new ConfigurationViewModel(this);
+        PlayerViewModel = new PlayerViewModel(this);
+
         Packs = [];
         ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
         ActivePack.Questions.Add(new Question("Whats a question?", "correct", "wrong", "wrong", "wrong"));
@@ -35,8 +38,6 @@ public class MainWindowViewModel : ViewModelBase
         ActivePack.Questions.Add(new Question("test3", "correct3", "wrong3", "wrong3", "wrong3"));
         Packs.Add(ActivePack);
 
-        ConfigurationViewModel = new ConfigurationViewModel(this);
-        PlayerViewModel = new PlayerViewModel(this);
 
         CurrentView = new PlayerView();
         CollapsibleMenuVisibility = Visibility.Collapsed;
@@ -75,7 +76,13 @@ public class MainWindowViewModel : ViewModelBase
         set
         {
             _activePack = value;
+            if (ActivePack is not null)
+            {
+                ConfigurationViewModel.SelectedQuestion = ActivePack?.Questions?.FirstOrDefault();
+            }
+
             RaisePropertyChanged();
+            //ResetView();
         }
     }
     private void ShowPlayView(object obj)
@@ -103,8 +110,20 @@ public class MainWindowViewModel : ViewModelBase
         CollapsibleMenuVisibility = Visibility.Collapsed;
     }
 
+    public void ResetView()
+    {
+        if (CurrentView is ConfigurationView)
+        {
+            CurrentView = new ConfigurationView();
+        }
+        else
+        {
+            CurrentView = new PlayerView();
+        }
+    }
+
     private void ExitApplication(object obj)
     {
-        Application.Current.Shutdown(); // This will close the application
+        Application.Current.Shutdown();
     }
 }

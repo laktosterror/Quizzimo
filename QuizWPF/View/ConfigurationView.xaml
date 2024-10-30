@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-             xmlns:local="clr-namespace:QuizWPF.View" xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ConfigurationViewModel}"
+             xmlns:local="clr-namespace:QuizWPF.View" xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:ConfigurationViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="515" d:DesignWidth="835">
+
 
     <Grid Background="#202937">
         <Grid Grid.Row="1">
@@ -16,24 +18,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="15">
-                <TextBlock Text="Select Pack:"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Left"
-                       Foreground="WhiteSmoke"
-                       FontSize="16"
-                       Margin="5" FontFamily="Sitka Small" />
-                <ComboBox ItemsSource="{Binding Packs}" 
-                          SelectedItem="{Binding SelectedPack, Mode=TwoWay}" 
-                          Background="WhiteSmoke" 
-                          Margin="0 0 0 10">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-
+            <StackPanel Margin="10">
                 <TextBlock Text="Select Question:"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Left"
@@ -41,9 +26,9 @@
                        FontSize="16"
                        Margin="5" FontFamily="Sitka Small" />
 
-                <ComboBox ItemsSource="{Binding SelectedPack.Questions}" 
-                          SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}" 
-                          Background="WhiteSmoke" 
+                <ComboBox ItemsSource="{Binding ActivePack.Questions, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedQuestion}" 
+                          Background="WhiteSmoke"
                           Margin="0 0 0 10">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -69,7 +54,7 @@
                        FontSize="16"
                        Margin="5" FontFamily="Sitka Small" />
                 <ui:TextBox Text="{Binding SelectedQuestion.CorrectAnswer, Mode=TwoWay }" Background="WhiteSmoke" Margin="0 0 0 10"/>
-                    
+
 
                 <TextBlock Text="Set Incorrect Answers:"
                        VerticalAlignment="Top"
@@ -82,6 +67,97 @@
                 <ui:TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[2], Mode=TwoWay }" Background="WhiteSmoke" Margin="0 0 0 2"/>
 
             </StackPanel>
+            <Grid Grid.Column="1">
+                <StackPanel Margin=" 10">
+                    <TextBlock Text="Actions:"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Center"
+                       Foreground="WhiteSmoke"
+                       FontSize="16"
+                       Margin="5" FontFamily="Sitka Small" />
+                    
+                    <ui:Button Margin="0 0 0 0"
+                        Content="Add Question To Pack"
+                        HorizontalContentAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Appearance="Transparent"
+                        FontSize="38"
+                        Width="260"
+                        Height="38"
+                        CornerRadius="15"
+                        Background="WhiteSmoke"
+                        MouseOverBackground="DarkOrange"
+                        PressedBackground="OrangeRed"
+                        Icon="{ui:SymbolIcon Symbol=Add20}" 
+                        Command="{Binding AddQuestionCommand}"/>
+                
+                    <ui:Button Content="Remove Question From Pack"
+                        HorizontalContentAlignment="Left"
+                        Margin="0 10 0 10"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Appearance="Transparent"
+                        FontSize="38"
+                        Width="260"
+                        Height="38"
+                        CornerRadius="15"
+                        Background="WhiteSmoke"
+                        MouseOverBackground="DarkOrange"
+                        PressedBackground="OrangeRed"
+                        Icon="{ui:SymbolIcon Symbol=Subtract20}" 
+                        Command="{Binding RemoveQuestionCommand}"/>
+                    
+                    
+                    <ui:Button Content="Import Questions To Pack"
+                            HorizontalContentAlignment="Left"
+                            Margin="0 0 0 5"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Appearance="Transparent"
+                            FontSize="38"
+                            Width="260"
+                            Height="38"
+                            CornerRadius="15"
+                            Background="WhiteSmoke"
+                            MouseOverBackground="DarkOrange"
+                            PressedBackground="OrangeRed"
+                            Icon="{ui:SymbolIcon Symbol=ArrowDownload20}" 
+                            Command="{Binding ShowDownloadQuestionsViewCommand}"/>
+
+                    <Border Height="2" Background="LightGray" Margin="10 30 10 5" />
+                    
+                    <TextBlock Text="Pack Options" 
+                               HorizontalAlignment="Center"
+                               FontWeight="Bold" 
+                               Foreground="WhiteSmoke" 
+                               FontSize="16" 
+                               FontFamily="Sitka Small" 
+                               Margin="10"/>
+                    
+                    <TextBlock Text="Pack Name:" 
+                               FontWeight="Bold" 
+                               Foreground="WhiteSmoke" 
+                               Margin="10 0 10 0"/>
+
+                    <ui:TextBox Text="{Binding ActivePack.Name, Mode=TwoWay }" Background="WhiteSmoke" Margin="10 0 10 0"/>
+
+                    <TextBlock Text="Difficulty:" 
+                               FontWeight="Bold" 
+                               Foreground="WhiteSmoke" 
+                               Margin="10 10 10 0"/>
+                    
+                    <ComboBox Margin="10 0 10 0"
+                              ItemsSource="{Binding Difficulties}" 
+                              SelectedItem="{Binding ActivePack.Difficulty}"/>
+                    
+                    <TextBlock Text="Time Limit:" 
+                               FontWeight="Bold" 
+                               Foreground="WhiteSmoke" 
+                               Margin="10 10 10 0"/>
+                    <Slider Margin="10 0 10 0"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

@@ -17,18 +17,6 @@
         Background="Transparent" 
         AllowsTransparency="True"
         MouseDown="Window_MouseDown">
-    <Window.Resources>
-        <Style x:Key="CustomListBoxItemStyle" TargetType="ListBoxItem">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="DarkOrange"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
 
     <Border Background="WhiteSmoke"
             CornerRadius="25"
@@ -76,6 +64,28 @@
                         Foreground="Black"
                         FontSize="46" FontFamily="Sitka Small" Margin="25,0,0,0" />
             <Grid Grid.Row="0" Grid.Column="2" x:Name="ContentGrid" Background="Transparent"/>
+            <DockPanel Grid.Column="2" Margin=" 10 10 75 10">
+                <ComboBox DockPanel.Dock="Right" 
+                          BorderThickness="3"
+                          ItemsSource="{Binding Packs}" 
+                          SelectedItem="{Binding ActivePack, UpdateSourceTrigger=PropertyChanged}" 
+                          Background="WhiteSmoke">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ui:TextBlock DockPanel.Dock="Right" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Right" 
+                              Text="Active Pack:" 
+                              Foreground="Gray" 
+                              FontFamily="Sitka Small" 
+                              FontSize="16" 
+                              Margin="10 10 10 10"/>
+
+            </DockPanel>
 
             <Border x:Name="CollapsibleMenuView"
                     Grid.Row="0" 
