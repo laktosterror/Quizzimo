@@ -44,7 +44,12 @@
             <Border Grid.Row="1" Grid.Column="2" Background="LightGray"></Border>
             <Border Grid.Row="2" Grid.Column="1" Background="LightGray"></Border>
 
-            <ui:Button Margin="10"
+            <ui:Button ToolTip="Show menu"
+                        ToolTipService.InitialShowDelay="100"
+                        ToolTipService.Placement="Right"
+                        ToolTipService.HorizontalOffset="26.5"
+                        ToolTipService.VerticalOffset="6"
+                       Margin="10"
                         BorderThickness="0"
                         Appearance="Transparent"
                         FontSize="38"
@@ -125,7 +130,7 @@
 
             <Grid Grid.Row="2" Grid.Column="0">
                 <StackPanel Grid.Row="1" VerticalAlignment="Top">
-                    <ui:Button  ToolTip="Start quiz game!"
+                    <ui:Button  ToolTip="Play quiz game"
                                 ToolTipService.InitialShowDelay="100"
                                 ToolTipService.Placement="Right"
                                 ToolTipService.HorizontalOffset="26.5"
@@ -142,7 +147,7 @@
                                 Icon="{ui:SymbolIcon Symbol=Play20}" 
                                 Command="{Binding ShowPlayViewCommand}"/>
 
-                    <ui:Button  ToolTip="Manage quiz packs."
+                    <ui:Button  ToolTip="Configure quiz pack"
                                 ToolTipService.InitialShowDelay="100"
                                 ToolTipService.Placement="Right"
                                 ToolTipService.HorizontalOffset="26.5"

@@ -27,23 +27,14 @@ public class MainWindowViewModel : ViewModelBase
         ConfigurationViewModel = new ConfigurationViewModel(this);
         PlayerViewModel = new PlayerViewModel(this);
 
-        Packs = [];
-        ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
-        ActivePack.Questions.Add(new Question("Whats a question?", "correct", "wrong", "wrong", "wrong"));
-        ActivePack.Questions.Add(new Question("test2", "correct2", "wrong2", "wrong2", "wrong2"));
-        ActivePack.Questions.Add(new Question("test3", "correct3", "wrong3", "wrong3", "wrong3"));
-        Packs.Add(ActivePack);
-
-        ActivePack = new QuestionPackViewModel(new QuestionPack("My Question Pack 2"));
-        ActivePack.Questions.Add(new Question("test3", "correct3", "wrong3", "wrong3", "wrong3"));
-        Packs.Add(ActivePack);
-
-
-        CurrentView = new PlayerView();
-        CollapsibleMenuVisibility = Visibility.Collapsed;
-
         FileReader = new FileReader(@"./data.json");
-        //Packs = FileReader.ReadFromFile();
+        Packs = FileReader.ReadFromFile();
+
+        CollapsibleMenuVisibility = Visibility.Collapsed;
+        CurrentView = new PlayerView();
+
+        ActivePack = Packs.FirstOrDefault();
+        
         ShowPlayViewCommand = new DelegateCommand(ShowPlayView);
         ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
         ExitApplicationCommand = new DelegateCommand(ExitApplication);
@@ -76,13 +67,9 @@ public class MainWindowViewModel : ViewModelBase
         set
         {
             _activePack = value;
-            if (ActivePack is not null)
-            {
-                ConfigurationViewModel.SelectedQuestion = ActivePack?.Questions?.FirstOrDefault();
-            }
-
             RaisePropertyChanged();
-            //ResetView();
+
+            ResetView();
         }
     }
     private void ShowPlayView(object obj)
@@ -124,6 +111,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private void ExitApplication(object obj)
     {
+        FileReader.WriteToFile(Packs);
         Application.Current.Shutdown();
     }
 }

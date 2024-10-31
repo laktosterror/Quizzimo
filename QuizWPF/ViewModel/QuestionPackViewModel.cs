@@ -1,12 +1,26 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 using QuizWPF.Model;
 
 namespace QuizWPF.ViewModel;
 
-public class QuestionPackViewModel(QuestionPack model) : ViewModelBase
+public class QuestionPackViewModel : ViewModelBase
 {
-    private QuestionPack Model { get; set; } = model;
-    public ObservableCollection<Question> Questions { get; set; } = model.Questions;
+    [JsonIgnore]
+    public QuestionPack Model { get; set; }
+    public ObservableCollection<Question> Questions { get; set; } = [];
+
+    public QuestionPackViewModel(QuestionPack model)
+    {
+        Model = model;
+    }
+
+    [JsonConstructor]
+    public QuestionPackViewModel()
+    {
+        Model = new QuestionPack() { Questions = [] };
+        
+    }
 
     public string Name
     {

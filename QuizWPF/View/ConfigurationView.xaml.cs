@@ -25,6 +25,7 @@ namespace QuizWPF.View
         {
             InitializeComponent();
             DataContext = new ConfigurationViewModel((MainWindowViewModel)Application.Current.MainWindow.DataContext);
+            
         }
     }
 }

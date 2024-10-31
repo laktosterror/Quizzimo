@@ -3,6 +3,8 @@ using System.Text.Json;
 using System.IO;
 using System.Collections.ObjectModel;
 using QuizWPF.ViewModel;
+using QuizWPF.Model;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace QuizWPF;
 
@@ -14,7 +16,7 @@ public class FileReader(string dataPath)
     {
         try
         {
-            var json = JsonSerializer.Serialize(packs, new JsonSerializerOptions { WriteIndented = true });
+            var json = JsonSerializer.Serialize<ObservableCollection<QuestionPackViewModel>>(packs, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(DataPath, json);
         }
         catch
@@ -27,7 +29,12 @@ public class FileReader(string dataPath)
     {
         if (!File.Exists(DataPath))
         {
+            ObservableCollection<QuestionPackViewModel> newPackCollection = [];
+            var newPack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
+            newPack.Questions.Add(new Question("Why is the sky so blue?", "Dont worry about it!", "Blue is not a color!", "What about the colorblind?", "Something with light."));
+            newPackCollection.Add(newPack);
 
+            WriteToFile(newPackCollection);
         }
         try
         {

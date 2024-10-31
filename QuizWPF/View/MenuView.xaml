@@ -5,38 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:local="clr-namespace:QuizWPF.View"
-             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp" xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="43" d:DesignWidth="835">
     <Grid>
         <Menu Background="Transparent" FontFamily="Sitka Text">
             <MenuItem Header="_File">
                 <MenuItem Header="_New Question Pack"
-                          Icon="{fa:Icon floppyDisk}"/>
-                
-                <Separator/>
+                          Icon="{ui:SymbolIcon Symbol=Save20}"/>
+                <MenuItem Header="_Select Question Pack"
+                          Icon="{ui:SymbolIcon Symbol=Folder20}"
+                          ItemsSource="{Binding Packs}" >
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <MenuItem Header="{Binding Name}" />
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                </MenuItem>
+                <MenuItem Header="_Delete Question Pack"
+                          Icon="{ui:SymbolIcon Symbol=Delete20}"/>
 
-                <MenuItem Header="E_xit"/>
+                <Separator/>
+                
+                <MenuItem Header="_Import Questions"
+                          Icon="{ui:SymbolIcon Symbol=ArrowDownload20}"/>
+                <Separator/>
+                <MenuItem Header="_Exit"
+                          Icon="{ui:SymbolIcon Symbol=ArrowExit20}"/>
             </MenuItem>
             
             <MenuItem Header="_Edit">
-                <MenuItem Header="_Add Question"/>
-                <MenuItem Header="_Remove Question"/>
-                <MenuItem Header="Update Button"
-                            InputGestureText="Ctrl+U"
-                            Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+                <MenuItem Header="_Add Question"
+                          Icon="{ui:SymbolIcon Symbol=Add20}"/>
+                <MenuItem Header="_Remove Question"
+                          Icon="{ui:SymbolIcon Symbol=Subtract20}"/>
+                <MenuItem Header="_Pack Options"
+                          Icon="{ui:SymbolIcon Symbol=Options20}"
+                          InputGestureText="Ctrl+U"
+                          Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
             </MenuItem>
-            
+
             <MenuItem Header="_View">
-                <MenuItem Header="_Home"
-                          InputGestureText="Ctrl+H"/>
                 <MenuItem Header="_Play"
-                          InputGestureText="Ctrl+P"/>
+                          Icon="{ui:SymbolIcon Symbol=Play20}"
+                          InputGestureText="Ctrl+H"/>
                 <MenuItem Header="_Configuration"
+                          Icon="{ui:SymbolIcon Symbol=Box20}"
+                          InputGestureText="Ctrl+P"/>
+                <MenuItem Header="_Fullscreen"
+                          Icon="{ui:SymbolIcon Symbol=FullScreenMaximize20}"
                           InputGestureText="Ctrl+C"
                           Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
             </MenuItem>
-                
         </Menu>
     </Grid>
 </UserControl>
