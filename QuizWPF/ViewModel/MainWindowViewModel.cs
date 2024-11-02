@@ -14,6 +14,8 @@ public class MainWindowViewModel : ViewModelBase
     public DelegateCommand ShowConfigurationViewCommand { get; }
     public DelegateCommand ExitApplicationCommand { get; }
     public DelegateCommand ShowMenuCommand { get; }
+    public DelegateCommand AddPackCommand { get; }
+    public DelegateCommand RemovePackCommand { get; }
     public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
     public FileReader FileReader {get; set;}
     public ConfigurationViewModel ConfigurationViewModel { get; }
@@ -24,22 +26,26 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        ConfigurationViewModel = new ConfigurationViewModel(this);
-        PlayerViewModel = new PlayerViewModel(this);
-
-        FileReader = new FileReader(@"./data.json");
-        Packs = FileReader.ReadFromFile();
-
-        CollapsibleMenuVisibility = Visibility.Collapsed;
-        CurrentView = new PlayerView();
-
-        ActivePack = Packs.FirstOrDefault();
-        
         ShowPlayViewCommand = new DelegateCommand(ShowPlayView);
         ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
         ExitApplicationCommand = new DelegateCommand(ExitApplication);
-        ShowMenuCommand = new DelegateCommand(ShowMenu);
+        ShowMenuCommand = new DelegateCommand(ToggleMenu);
+        AddPackCommand = new DelegateCommand(AddPack);
+        RemovePackCommand = new DelegateCommand(RemovePack);
+
+        FileReader = new FileReader(@"./data.json");
+        var loadedPacks = FileReader.ReadFromFile();
+        Packs = loadedPacks.Result;
+        ActivePack = Packs.FirstOrDefault();
+
+        ConfigurationViewModel = new ConfigurationViewModel(this);
+        PlayerViewModel = new PlayerViewModel(this);
+        
+        CollapsibleMenuVisibility = Visibility.Collapsed;
+        CurrentView = new PlayerView();
+        
     }
+
  
 
     public UserControl CurrentView
@@ -69,7 +75,7 @@ public class MainWindowViewModel : ViewModelBase
             _activePack = value;
             RaisePropertyChanged();
 
-            ResetView();
+            ReloadCurrentView();
         }
     }
     private void ShowPlayView(object obj)
@@ -80,7 +86,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         CurrentView = new ConfigurationView();
     }
-    private void ShowMenu(object obj)
+    private void ToggleMenu(object obj)
     {
         if (CollapsibleMenuVisibility == Visibility.Visible)
         {
@@ -92,12 +98,7 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public void HideMenu()
-    {
-        CollapsibleMenuVisibility = Visibility.Collapsed;
-    }
-
-    public void ResetView()
+    public void ReloadCurrentView()
     {
         if (CurrentView is ConfigurationView)
         {
@@ -111,7 +112,24 @@ public class MainWindowViewModel : ViewModelBase
 
     private void ExitApplication(object obj)
     {
-        FileReader.WriteToFile(Packs);
+        FileReader.WriteToFile(Packs).GetAwaiter();
         Application.Current.Shutdown();
+    }
+
+    private void RemovePack(object obj)
+    {
+        Packs.Remove(ActivePack);
+        ActivePack = Packs.FirstOrDefault();
+
+    }
+
+    private void AddPack(object obj)
+    {
+        var newPackModel = new QuestionPack("New Question Pack");
+        var newPack = new QuestionPackViewModel(newPackModel);
+        newPack.Questions.Add(new Question("Why is the sky so blue?", "Dont worry about it!", "Blue is not a color!", "What about the colorblind?", "Something with light."));
+        Packs.Insert(0, newPack);
+        ActivePack = Packs.FirstOrDefault();
+
     }
 }

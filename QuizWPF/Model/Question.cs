@@ -1,9 +1,12 @@
 ﻿using System.Text.Json.Serialization;
+using QuizWPF.ViewModel;
 
 namespace QuizWPF.Model;
 
-public class Question
+public class Question : ViewModelBase
 {
+    private string query;
+
     public Question(string query, string correctAnswer, string incorrectAnswer1, string incorrectAnswer2, string correctAnswer3)
     {
         Query = query;
@@ -18,7 +21,15 @@ public class Question
         CorrectAnswer = string.Empty;
         IncorrectAnswers = [];
     }
-    public string Query { get; set; }
+    public string Query
+    { 
+        get => query;
+        set
+        {
+            query = value;
+            RaisePropertyChanged();
+        } 
+    }
     public string CorrectAnswer { get; set; }
     public string[] IncorrectAnswers { get; set; }
 }

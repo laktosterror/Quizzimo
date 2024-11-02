@@ -31,26 +31,31 @@
                           Icon="{ui:SymbolIcon Symbol=ArrowDownload20}"/>
                 <Separator/>
                 <MenuItem Header="_Exit"
-                          Icon="{ui:SymbolIcon Symbol=ArrowExit20}"/>
+                          Icon="{ui:SymbolIcon Symbol=ArrowExit20}"
+                          Command="{Binding ExitApplicationCommand}"/>
             </MenuItem>
             
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Add Question"
-                          Icon="{ui:SymbolIcon Symbol=Add20}"/>
+                          Icon="{ui:SymbolIcon Symbol=Add20}"
+                          Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
                 <MenuItem Header="_Remove Question"
-                          Icon="{ui:SymbolIcon Symbol=Subtract20}"/>
+                          Icon="{ui:SymbolIcon Symbol=Subtract20}"
+                          Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"/>
                 <MenuItem Header="_Pack Options"
                           Icon="{ui:SymbolIcon Symbol=Options20}"
                           InputGestureText="Ctrl+U"
-                          Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+                          Command="{Binding ShowConfigurationViewCommand}"/>
             </MenuItem>
 
             <MenuItem Header="_View">
                 <MenuItem Header="_Play"
                           Icon="{ui:SymbolIcon Symbol=Play20}"
+                          Command="{Binding ShowPlayViewCommand}"
                           InputGestureText="Ctrl+H"/>
                 <MenuItem Header="_Configuration"
                           Icon="{ui:SymbolIcon Symbol=Box20}"
+                          Command="{Binding ShowConfigurationViewCommand}"
                           InputGestureText="Ctrl+P"/>
                 <MenuItem Header="_Fullscreen"
                           Icon="{ui:SymbolIcon Symbol=FullScreenMaximize20}"

@@ -3,21 +3,20 @@ using System.Text.Json;
 using System.IO;
 using System.Collections.ObjectModel;
 using QuizWPF.ViewModel;
-using QuizWPF.Model;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
-namespace QuizWPF;
+namespace QuizWPF.Model;
 
 public class FileReader(string dataPath)
 {
     readonly string DataPath = dataPath;
 
-    public void WriteToFile(ObservableCollection<QuestionPackViewModel> packs)
+    public async Task WriteToFile(ObservableCollection<QuestionPackViewModel> packs)
     {
         try
         {
-            var json = JsonSerializer.Serialize<ObservableCollection<QuestionPackViewModel>>(packs, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(DataPath, json);
+            var json = JsonSerializer.Serialize(packs, new JsonSerializerOptions { WriteIndented = true });
+            await File.WriteAllTextAsync(DataPath, json);
         }
         catch
         {
@@ -25,7 +24,7 @@ public class FileReader(string dataPath)
         }
     }
 
-    public ObservableCollection<QuestionPackViewModel> ReadFromFile()
+    public async Task<ObservableCollection<QuestionPackViewModel>> ReadFromFile()
     {
         if (!File.Exists(DataPath))
         {
@@ -34,12 +33,12 @@ public class FileReader(string dataPath)
             newPack.Questions.Add(new Question("Why is the sky so blue?", "Dont worry about it!", "Blue is not a color!", "What about the colorblind?", "Something with light."));
             newPackCollection.Add(newPack);
 
-            WriteToFile(newPackCollection);
+            await WriteToFile(newPackCollection);
         }
         try
         {
-            var json = File.ReadAllText(DataPath);
-            var packs = JsonSerializer.Deserialize<ObservableCollection<QuestionPackViewModel>>(json);
+            var json = File.ReadAllTextAsync(DataPath);
+            var packs = JsonSerializer.Deserialize<ObservableCollection<QuestionPackViewModel>>(json.GetAwaiter().GetResult());
             return packs;
         }
         catch

@@ -24,7 +24,7 @@
         <Border.Effect>
             <DropShadowEffect BlurRadius="5" 
                               Direction="-90"
-                              RenderingBias="Quality" 
+                              RenderingBias="Quality"
                               ShadowDepth="0.5" />
         </Border.Effect>
 
@@ -68,29 +68,64 @@
                         HorizontalAlignment="Left"
                         Foreground="Black"
                         FontSize="46" FontFamily="Sitka Small" Margin="25,0,0,0" />
+            
             <Grid Grid.Row="0" Grid.Column="2" x:Name="ContentGrid" Background="Transparent"/>
-            <DockPanel Grid.Column="2" Margin=" 10 10 75 10">
-                <ComboBox DockPanel.Dock="Right" 
-                          BorderThickness="3"
-                          ItemsSource="{Binding Packs}" 
-                          SelectedItem="{Binding ActivePack, UpdateSourceTrigger=PropertyChanged}" 
-                          Background="WhiteSmoke">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <ui:TextBlock DockPanel.Dock="Right" 
-                              VerticalAlignment="Center" 
-                              HorizontalAlignment="Right" 
-                              Text="Active Pack:" 
-                              Foreground="Gray" 
-                              FontFamily="Sitka Small" 
-                              FontSize="16" 
-                              Margin="10 10 10 10"/>
 
-            </DockPanel>
+            <Border Grid.Column="2" Margin=" 10 10 75 10" BorderThickness="2" BorderBrush="LightGray" CornerRadius="5" HorizontalAlignment="Right" Background="#202937" Height="55">
+                <DockPanel Grid.Column="2" HorizontalAlignment="Stretch">
+                    <ui:TextBlock VerticalAlignment="Center" 
+                                  HorizontalAlignment="Right" 
+                                  Text="Active Pack:" 
+                                  Foreground="WhiteSmoke" 
+                                  FontFamily="Sitka Small" 
+                                  FontSize="14" 
+                                  Margin="10 0 5 0"/>
+                    <ComboBox Width="170"
+                              Height="35"
+                              BorderThickness="0"
+                              ItemsSource="{Binding Packs}" 
+                              SelectedItem="{Binding ActivePack}" 
+                              Background="WhiteSmoke">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ui:Button  ToolTip="Create New Pack"
+                            ToolTipService.InitialShowDelay="100"
+                            ToolTipService.Placement="Right"
+                            ToolTipService.HorizontalOffset="26.5"
+                            ToolTipService.VerticalOffset="6"
+                            Appearance="Transparent"
+                            Background="WhiteSmoke"
+                            FontSize="12"
+                            CornerRadius="10" 
+                            Height="35"
+                            Width="35"
+                            Margin="10 0 10 0"
+                            MouseOverBackground="DarkOrange"
+                            PressedBackground="OrangeRed"
+                            Icon="{ui:SymbolIcon Symbol=Add16}" 
+                            Command="{Binding AddPackCommand}"/>
+                    <ui:Button  ToolTip="Delete Active Pack"
+                            ToolTipService.InitialShowDelay="100"
+                            ToolTipService.Placement="Right"
+                            ToolTipService.HorizontalOffset="26.5"
+                            ToolTipService.VerticalOffset="6"
+                            Appearance="Transparent"
+                            Background="WhiteSmoke"
+                            FontSize="12"
+                            CornerRadius="10" 
+                            Height="35"
+                            Width="35"
+                            Margin="0 0 10 0"
+                            MouseOverBackground="DarkOrange"
+                            PressedBackground="OrangeRed"
+                            Icon="{ui:SymbolIcon Symbol=Subtract16}" 
+                            Command="{Binding RemovePackCommand}"/>
+                </DockPanel>
+            </Border>
 
             <Border x:Name="CollapsibleMenuView"
                     Grid.Row="0" 
@@ -168,7 +203,7 @@
             </Grid>
 
             <Grid Grid.Row="2" Grid.Column="2">
-                <Border CornerRadius="5 5 20 5" Background="#202937" Margin="10">
+                <Border CornerRadius="5 5 20 5" Background="#202937" Margin="10" BorderThickness="2" BorderBrush="LightGray">
                     <ContentControl x:Name="MainContent" Margin="10" Content="{Binding CurrentView}" />
                 </Border>
             </Grid>

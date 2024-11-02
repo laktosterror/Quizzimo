@@ -29,7 +29,15 @@ public partial class MainWindow : Window
 
     private void ContentGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        DragMove();
+        try
+        {
+            DragMove();
+        }
+        catch
+        {
+            Console.WriteLine("only action on left click!");
+        }
+        
     }
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
     {
