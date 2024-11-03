@@ -18,6 +18,7 @@ public class MainWindowViewModel : ViewModelBase
     public DelegateCommand RemovePackCommand { get; }
     public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
     public FileReader FileReader {get; set;}
+    public OpenTriviaClient OpenTriviaClient { get; set;}
     public ConfigurationViewModel ConfigurationViewModel { get; }
     public PlayerViewModel? PlayerViewModel { get; }
     private UserControl? _currentView;
@@ -26,6 +27,13 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        FileReader = new FileReader(@"./data.json");
+        var loadedPacks = FileReader.ReadFromFileAsync();
+
+        OpenTriviaClient = new OpenTriviaClient();
+        OpenTriviaClient.LoadTokenAsync();
+        OpenTriviaClient.LoadCategoriesAsync();
+
         ShowPlayViewCommand = new DelegateCommand(ShowPlayView);
         ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
         ExitApplicationCommand = new DelegateCommand(ExitApplication);
@@ -33,20 +41,17 @@ public class MainWindowViewModel : ViewModelBase
         AddPackCommand = new DelegateCommand(AddPack);
         RemovePackCommand = new DelegateCommand(RemovePack);
 
-        FileReader = new FileReader(@"./data.json");
-        var loadedPacks = FileReader.ReadFromFile();
-        Packs = loadedPacks.Result;
-        ActivePack = Packs.FirstOrDefault();
 
         ConfigurationViewModel = new ConfigurationViewModel(this);
         PlayerViewModel = new PlayerViewModel(this);
         
         CollapsibleMenuVisibility = Visibility.Collapsed;
         CurrentView = new PlayerView();
+
+        Packs = loadedPacks.GetAwaiter().GetResult();
+        ActivePack = Packs.FirstOrDefault();
         
     }
-
- 
 
     public UserControl CurrentView
     {
@@ -112,7 +117,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private void ExitApplication(object obj)
     {
-        FileReader.WriteToFile(Packs).GetAwaiter();
+        FileReader.WriteToFileAsync(Packs).GetAwaiter();
         Application.Current.Shutdown();
     }
 

@@ -11,7 +11,7 @@ public class FileReader(string dataPath)
 {
     readonly string DataPath = dataPath;
 
-    public async Task WriteToFile(ObservableCollection<QuestionPackViewModel> packs)
+    public async Task WriteToFileAsync(ObservableCollection<QuestionPackViewModel> packs)
     {
         try
         {
@@ -24,7 +24,7 @@ public class FileReader(string dataPath)
         }
     }
 
-    public async Task<ObservableCollection<QuestionPackViewModel>> ReadFromFile()
+    public async Task<ObservableCollection<QuestionPackViewModel>> ReadFromFileAsync()
     {
         if (!File.Exists(DataPath))
         {
@@ -33,7 +33,7 @@ public class FileReader(string dataPath)
             newPack.Questions.Add(new Question("Why is the sky so blue?", "Dont worry about it!", "Blue is not a color!", "What about the colorblind?", "Something with light."));
             newPackCollection.Add(newPack);
 
-            await WriteToFile(newPackCollection);
+            await WriteToFileAsync(newPackCollection);
         }
         try
         {
