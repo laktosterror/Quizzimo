@@ -8,24 +8,108 @@
              xmlns:local="clr-namespace:QuizWPF.View" xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="515" d:DesignWidth="835">
-    <Grid>
-        <StackPanel>
-            <TextBlock Text="Play:"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Center"
-                       Foreground="WhiteSmoke"
-                       FontSize="25" 
-                       Margin="25" FontFamily="Sitka Text" />
-            <Button Grid.Row="1"
-                    Width="200"
-                    Height="100"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Content="Submit!"
-                    Margin="10"
-                    Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+    <Grid Background="#202937">
+        <StackPanel VerticalAlignment="Center">
             
-            <TextBlock HorizontalAlignment="Right" Text="{Binding PlayerViewModel.TestData}" />
+            <TextBlock Text="question:"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Foreground="WhiteSmoke"
+                        FontSize="25" 
+                        Margin="25" FontFamily="Sitka Text" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <ui:Button Grid.Row="0"
+                           Grid.Column="0"
+                           Content="Hej!"
+                           BorderThickness="0"
+                           Appearance="Transparent"
+                           FontSize="38"
+                           Height="80"
+                           Width="200"
+                           Margin="10"
+                           CornerRadius="10" 
+                           Background="WhiteSmoke"
+                           MouseOverBackground="DarkOrange"
+                           PressedBackground="OrangeRed"
+                           HorizontalAlignment="Right"
+                           Command="{Binding ShowMenuCommand}"/>
+                
+                <ui:Button Grid.Row="0"
+                           Grid.Column="1"
+                           Content="Hej!"
+                           BorderThickness="0"
+                           Appearance="Transparent"
+                           FontSize="38"
+                           Height="80"
+                           Width="200"
+                           Margin="10"
+                           CornerRadius="10" 
+                           Background="WhiteSmoke"
+                           MouseOverBackground="DarkOrange"
+                           PressedBackground="OrangeRed"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+
+                <ui:Button Grid.Row="1"
+                           Grid.Column="0"
+                           Content="Hej!"
+                           BorderThickness="0"
+                           Appearance="Transparent"
+                           FontSize="38"
+                           Height="80"
+                           Width="200"
+                           Margin="10"
+                           CornerRadius="10" 
+                           Background="WhiteSmoke"
+                           MouseOverBackground="DarkOrange"
+                           PressedBackground="OrangeRed"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right"
+                           Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+
+                <ui:Button Grid.Row="1"
+                           Grid.Column="1"
+                           Content="Hej!"
+                           BorderThickness="0"
+                           Appearance="Transparent"
+                           FontSize="38"
+                           Height="80"
+                           Width="200"
+                           Margin="10"
+                           CornerRadius="10" 
+                           Background="WhiteSmoke"
+                           MouseOverBackground="DarkOrange"
+                           PressedBackground="OrangeRed"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+
+            </Grid>
+            
+            <TextBlock Text="Question out of"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Foreground="WhiteSmoke"
+                        FontSize="20" 
+                        Margin="25" FontFamily="Sitka Text" />
+
+            <TextBlock Text="Timer"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Foreground="WhiteSmoke"
+                        FontSize="25" 
+                        Margin="25" FontFamily="Sitka Text" />
+
         </StackPanel>
     </Grid>
 </UserControl>
