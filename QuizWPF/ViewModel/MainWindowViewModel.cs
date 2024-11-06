@@ -5,7 +5,6 @@ using QuizWPF.Command;
 using QuizWPF.Model;
 using QuizWPF.View;
 
-
 namespace QuizWPF.ViewModel;
 
 public class MainWindowViewModel : ViewModelBase
@@ -19,8 +18,10 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
     public FileReader FileReader {get; set;}
     public OpenTriviaClient OpenTriviaClient { get; set;}
-    public ConfigurationViewModel ConfigurationViewModel { get; }
-    public PlayerViewModel? PlayerViewModel { get; }
+    public ConfigurationViewModel ConfigurationViewModel { get; set; }
+    public ConfigurationView ConfigurationView { get; }
+    public PlayerViewModel? PlayerViewModel { get; set; }
+    public PlayerView PlayerView { get; }
     private UserControl? _currentView;
     private QuestionPackViewModel? _activePack;
     private Visibility _collapsibleMenuVisibility;
@@ -41,16 +42,17 @@ public class MainWindowViewModel : ViewModelBase
         AddPackCommand = new DelegateCommand(AddPack);
         RemovePackCommand = new DelegateCommand(RemovePack);
 
-
-        ConfigurationViewModel = new ConfigurationViewModel(this);
-        PlayerViewModel = new PlayerViewModel(this);
-        
-        CollapsibleMenuVisibility = Visibility.Collapsed;
-        CurrentView = new PlayerView();
-
         Packs = loadedPacks.GetAwaiter().GetResult();
         ActivePack = Packs.FirstOrDefault();
-        
+
+        ConfigurationViewModel = new ConfigurationViewModel(this);
+        ConfigurationView = new ConfigurationView(ConfigurationViewModel);
+
+        PlayerViewModel = new PlayerViewModel(this);
+        PlayerView = new PlayerView(PlayerViewModel);
+
+        CollapsibleMenuVisibility = Visibility.Collapsed;
+        CurrentView = PlayerView;
     }
 
     public UserControl CurrentView
@@ -85,11 +87,18 @@ public class MainWindowViewModel : ViewModelBase
     }
     private void ShowPlayView(object obj)
     {
-        CurrentView = new PlayerView();
+        PlayerViewModel = new PlayerViewModel(this);
+        CurrentView = new PlayerView(PlayerViewModel);
+    }
+
+    public void ShowResultsView()
+    {
+        CurrentView = new ResultsView(PlayerViewModel);
     }
     private void ShowConfigurationView(object obj)
     {
-        CurrentView = new ConfigurationView();
+        ConfigurationViewModel = new ConfigurationViewModel(this);
+        CurrentView = new ConfigurationView(ConfigurationViewModel);
     }
     private void ToggleMenu(object obj)
     {
@@ -107,11 +116,14 @@ public class MainWindowViewModel : ViewModelBase
     {
         if (CurrentView is ConfigurationView)
         {
-            CurrentView = new ConfigurationView();
+            ConfigurationViewModel = new ConfigurationViewModel(this);
+            CurrentView = new ConfigurationView(ConfigurationViewModel);
+            ConfigurationViewModel.AutoSelectFirstQuestion();
         }
         else
         {
-            CurrentView = new PlayerView();
+            PlayerViewModel = new PlayerViewModel(this);
+            CurrentView = new PlayerView(PlayerViewModel);
         }
     }
 

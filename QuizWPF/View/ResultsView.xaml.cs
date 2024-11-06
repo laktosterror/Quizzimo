@@ -17,15 +17,14 @@ using QuizWPF.ViewModel;
 namespace QuizWPF.View
 {
     /// <summary>
-    /// Interaction logic for ConfigurationView.xaml
+    /// Interaction logic for ResultsView.xaml
     /// </summary>
-    public partial class ConfigurationView : UserControl
+    public partial class ResultsView : UserControl
     {
-        public ConfigurationView(ConfigurationViewModel viewModel)
+        public ResultsView(PlayerViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = viewModel;
-            
+            this.DataContext = viewModel;
         }
     }
 }

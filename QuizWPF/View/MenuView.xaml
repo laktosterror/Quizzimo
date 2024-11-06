@@ -60,7 +60,7 @@
                 <MenuItem Header="_Fullscreen"
                           Icon="{ui:SymbolIcon Symbol=FullScreenMaximize20}"
                           InputGestureText="Ctrl+C"
-                          Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+                          Command=""/>
             </MenuItem>
         </Menu>
     </Grid>

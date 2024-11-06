@@ -5,13 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-             xmlns:local="clr-namespace:QuizWPF.View" xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
+             xmlns:local="clr-namespace:QuizWPF.View" 
+             xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:PlayerViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="515" d:DesignWidth="835">
-    <Grid Background="#202937">
+    <Grid Background="{Binding PlayerBackground}">
         <StackPanel VerticalAlignment="Center">
             
-            <TextBlock Text="question:"
+            <TextBlock Text="{Binding ActiveQuestion.Query}"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Center"
                         Foreground="WhiteSmoke"
@@ -29,7 +31,7 @@
 
                 <ui:Button Grid.Row="0"
                            Grid.Column="0"
-                           Content="Hej!"
+                           Content="{Binding ShuffeledAnswers[0]}"
                            BorderThickness="0"
                            Appearance="Transparent"
                            FontSize="38"
@@ -41,11 +43,12 @@
                            MouseOverBackground="DarkOrange"
                            PressedBackground="OrangeRed"
                            HorizontalAlignment="Right"
-                           Command="{Binding ShowMenuCommand}"/>
+                           Command="{Binding AnswerButtonCommand}"
+                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"/>
                 
                 <ui:Button Grid.Row="0"
                            Grid.Column="1"
-                           Content="Hej!"
+                           Content="{Binding ShuffeledAnswers[1]}"
                            BorderThickness="0"
                            Appearance="Transparent"
                            FontSize="38"
@@ -58,11 +61,12 @@
                            PressedBackground="OrangeRed"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+                           Command="{Binding AnswerButtonCommand}"
+                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"/>
 
                 <ui:Button Grid.Row="1"
                            Grid.Column="0"
-                           Content="Hej!"
+                           Content="{Binding ShuffeledAnswers[2]}"
                            BorderThickness="0"
                            Appearance="Transparent"
                            FontSize="38"
@@ -75,11 +79,12 @@
                            PressedBackground="OrangeRed"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Right"
-                           Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+                           Command="{Binding AnswerButtonCommand}"
+                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"/>
 
                 <ui:Button Grid.Row="1"
                            Grid.Column="1"
-                           Content="Hej!"
+                           Content="{Binding ShuffeledAnswers[3]}"
                            BorderThickness="0"
                            Appearance="Transparent"
                            FontSize="38"
@@ -92,22 +97,49 @@
                            PressedBackground="OrangeRed"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Command="{Binding PlayerViewModel.UpdateButtonCommand}"/>
+                           Command="{Binding AnswerButtonCommand}"
+                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"/>
 
             </Grid>
+            <DockPanel HorizontalAlignment="Center">
             
-            <TextBlock Text="Question out of"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Foreground="WhiteSmoke"
-                        FontSize="20" 
-                        Margin="25" FontFamily="Sitka Text" />
+                <TextBlock Text="Question "
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Foreground="WhiteSmoke"
+                            FontSize="20" 
+                            Margin="5" FontFamily="Sitka Text" />
 
-            <TextBlock Text="Timer"
-                        VerticalAlignment="Top"
+                <TextBlock Text="{Binding IndexOfActiveQuestion}"
+                        VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Foreground="WhiteSmoke"
                         FontSize="25" 
+                           Margin="5"
+                         FontFamily="Sitka Text" />
+
+                <TextBlock Text=" out of "
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Foreground="WhiteSmoke"
+                            FontSize="20" 
+                           Margin="5"
+                           FontFamily="Sitka Text" />
+
+                <TextBlock Text="{Binding ActivePack.Questions.Count}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Foreground="WhiteSmoke"
+                        FontSize="25" 
+                           Margin="5"
+                         FontFamily="Sitka Text" />
+
+            </DockPanel>
+            <TextBlock Text="{Binding TimeLeft}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Foreground="WhiteSmoke"
+                        FontSize="30" 
                         Margin="25" FontFamily="Sitka Text" />
 
         </StackPanel>

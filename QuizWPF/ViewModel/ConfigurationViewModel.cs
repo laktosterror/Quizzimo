@@ -24,8 +24,11 @@ public class ConfigurationViewModel : ViewModelBase
 
         this._mainWindowViewModel = mainWindowViewModel;
         Difficulties = new ObservableCollection<Difficulty>(Enum.GetValues(typeof(Difficulty)).Cast<Difficulty>());
+    }
 
-        if(ActivePack != null )
+    public void AutoSelectFirstQuestion()
+    {
+        if (ActivePack != null)
         {
             SelectedQuestion = ActivePack.Questions.FirstOrDefault();
         }
