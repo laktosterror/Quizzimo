@@ -58,7 +58,7 @@ public class PlayerViewModel : ViewModelBase
 
         if (ActivePack != null)
         {
-            LoadNextQuestion();
+            LoadFirstQuestion();
         }
     }
 
@@ -116,6 +116,16 @@ public class PlayerViewModel : ViewModelBase
         allAnswers.Add(question.CorrectAnswer);
         var randomizedList = allAnswers.OrderBy(x => random.Next()).ToList();
         ShuffeledAnswers = new ObservableCollection<string>(randomizedList);
+    }
+
+    public void LoadFirstQuestion()
+    {
+        if (IndexOfActiveQuestion < ActivePack.Questions.Count)
+        {
+            TimeLeft = ActivePack.TimeLimitSeconds;
+            ActiveQuestion = ActivePack.Questions[IndexOfActiveQuestion];
+            ShuffleAnswersForActiveQuestion(ActiveQuestion);
+        }
     }
 
     public void LoadNextQuestion()
