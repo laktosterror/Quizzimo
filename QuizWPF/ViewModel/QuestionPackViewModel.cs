@@ -6,7 +6,6 @@ namespace QuizWPF.ViewModel;
 
 public class QuestionPackViewModel : ViewModelBase
 {
-    [JsonIgnore]
     public QuestionPack Model { get; set; }
     public ObservableCollection<Question> Questions { get; set; } = [];
 
@@ -15,12 +14,12 @@ public class QuestionPackViewModel : ViewModelBase
         Model = model;
     }
 
-    [JsonConstructor]
-    public QuestionPackViewModel()
-    {
-        Model = new QuestionPack() { Questions = [] };
-        
-    }
+    //[JsonConstructor]
+    //public QuestionPackViewModel()
+    //{
+    //    Model = new QuestionPack() { Questions = [] };
+    //    
+    //}
 
     public string Name
     {
