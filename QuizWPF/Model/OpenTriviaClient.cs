@@ -24,7 +24,7 @@ namespace QuizWPF.Model
         public string SelectedDifficulty;
 
 
-        public async Task LoadTokenAsync()
+        public async void LoadTokenAsync()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, (OpenTriviaUriBase + OpenTriviaUriTokenPath));
             //request.Headers.Add("Cookie", "PHPSESSID=2ff588d198ce1cae1baf38d6ad3869b9");
@@ -36,12 +36,14 @@ namespace QuizWPF.Model
             var responseString = await response.Content.ReadAsStringAsync();
             var openTriviaToken = JsonSerializer.Deserialize<OpenTriviaToken>(responseString);
             Token = openTriviaToken.token;
+            
+            Thread.Sleep(10000);
 
             await Task.Delay(10000);
 
         }
 
-        public async Task LoadCategoriesAsync()
+        public async void LoadCategoriesAsync()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, (OpenTriviaUriBase + OpenTriviaUriCategoryPath));
             //request.Headers.Add("Cookie", "PHPSESSID=2ff588d198ce1cae1baf38d6ad3869b9");
