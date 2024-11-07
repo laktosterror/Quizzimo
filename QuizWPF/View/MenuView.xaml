@@ -12,19 +12,25 @@
         <Menu Background="Transparent" FontFamily="Sitka Text">
             <MenuItem Header="_File">
                 <MenuItem Header="_New Question Pack"
-                          Icon="{ui:SymbolIcon Symbol=Save20}"/>
-                <MenuItem Header="_Select Question Pack"
-                          Icon="{ui:SymbolIcon Symbol=Folder20}"
-                          ItemsSource="{Binding Packs}" >
+                          Icon="{ui:SymbolIcon Symbol=Save20}"
+                          Command="{Binding AddPackCommand}"/>
+                <MenuItem Header="Select Pack"
+                          Icon="{ui:SymbolIcon Symbol=Box20}">
+                    <MenuItem.ItemsSource>
+                        <Binding Path="Packs" />
+                    </MenuItem.ItemsSource>
                     <MenuItem.ItemTemplate>
                         <DataTemplate>
-                            <MenuItem Header="{Binding Name}" />
+                            <MenuItem Header="{Binding Name}" 
+                              Command="{Binding DataContext.SetActivePackCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                              CommandParameter="{Binding}" />
                         </DataTemplate>
                     </MenuItem.ItemTemplate>
                 </MenuItem>
                 <MenuItem Header="_Delete Question Pack"
-                          Icon="{ui:SymbolIcon Symbol=Delete20}"/>
-
+                          Icon="{ui:SymbolIcon Symbol=Delete20}"
+                          Command="{Binding RemovePackCommand}"/>
+                
                 <Separator/>
                 
                 <MenuItem Header="_Import Questions"
@@ -32,19 +38,22 @@
                 <Separator/>
                 <MenuItem Header="_Exit"
                           Icon="{ui:SymbolIcon Symbol=ArrowExit20}"
-                          Command="{Binding ExitApplicationCommand}"/>
+                          Command="{Binding ExitApplicationCommand}"
+                          InputGestureText="Alt+F4"/>
             </MenuItem>
             
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Add Question"
                           Icon="{ui:SymbolIcon Symbol=Add20}"
-                          Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
+                          Command="{Binding ConfigurationViewModel.AddQuestionCommand}"
+                          InputGestureText="Ctrl+Q"/>
                 <MenuItem Header="_Remove Question"
                           Icon="{ui:SymbolIcon Symbol=Subtract20}"
-                          Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"/>
+                          Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"
+                          InputGestureText="Ctrl+R"/>
                 <MenuItem Header="_Pack Options"
                           Icon="{ui:SymbolIcon Symbol=Options20}"
-                          InputGestureText="Ctrl+U"
+                          InputGestureText="Ctrl+O"
                           Command="{Binding ShowConfigurationViewCommand}"/>
             </MenuItem>
 
@@ -52,15 +61,15 @@
                 <MenuItem Header="_Play"
                           Icon="{ui:SymbolIcon Symbol=Play20}"
                           Command="{Binding ShowPlayViewCommand}"
-                          InputGestureText="Ctrl+H"/>
+                          InputGestureText="Ctrl+P"/>
                 <MenuItem Header="_Configuration"
                           Icon="{ui:SymbolIcon Symbol=Box20}"
                           Command="{Binding ShowConfigurationViewCommand}"
-                          InputGestureText="Ctrl+P"/>
+                          InputGestureText="Ctrl+C"/>
                 <MenuItem Header="_Fullscreen"
                           Icon="{ui:SymbolIcon Symbol=FullScreenMaximize20}"
-                          InputGestureText="Ctrl+C"
-                          Command=""/>
+                          InputGestureText="F11"
+                          IsEnabled="False"/>
             </MenuItem>
         </Menu>
     </Grid>

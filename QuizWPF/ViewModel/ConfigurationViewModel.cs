@@ -6,7 +6,6 @@ namespace QuizWPF.ViewModel;
 
 public class ConfigurationViewModel : ViewModelBase
 {
-
     public DelegateCommand AddQuestionCommand { get; }
     public DelegateCommand RemoveQuestionCommand { get; }
 

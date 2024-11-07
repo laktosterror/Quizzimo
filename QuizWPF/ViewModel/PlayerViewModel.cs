@@ -56,7 +56,10 @@ public class PlayerViewModel : ViewModelBase
         timer.Tick += Timer_Tick;
         timer.Start();
 
-        LoadNextQuestion();
+        if (ActivePack != null)
+        {
+            LoadNextQuestion();
+        }
     }
 
     private async void AnswerButton(object obj)
@@ -86,10 +89,10 @@ public class PlayerViewModel : ViewModelBase
 
     private async Task FlashBackgroundGreen()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 1; i++)
         {
             PlayerBackground = "Green";
-            await Task.Delay(50);
+            await Task.Delay(2000);
             PlayerBackground = "#202937";
             await Task.Delay(50);
         }
@@ -100,9 +103,9 @@ public class PlayerViewModel : ViewModelBase
         for (int i = 0; i < 10; i++)
         {
             PlayerBackground = "Red";
-            await Task.Delay(50);
+            await Task.Delay(150);
             PlayerBackground = "#202937";
-            await Task.Delay(50);
+            await Task.Delay(150);
         }
     }
 

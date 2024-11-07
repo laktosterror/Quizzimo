@@ -131,8 +131,7 @@
                             Background="WhiteSmoke"
                             MouseOverBackground="DarkOrange"
                             PressedBackground="OrangeRed"
-                            Icon="{ui:SymbolIcon Symbol=ArrowDownload20}" 
-                            Command=""/>
+                            Icon="{ui:SymbolIcon Symbol=ArrowDownload20}" />
 
                     <Border Height="2" Background="LightGray" Margin="10 30 10 5" />
                     

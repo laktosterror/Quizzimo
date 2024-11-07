@@ -15,6 +15,7 @@ public class MainWindowViewModel : ViewModelBase
     public DelegateCommand ShowMenuCommand { get; }
     public DelegateCommand AddPackCommand { get; }
     public DelegateCommand RemovePackCommand { get; }
+    public DelegateCommand SetActivePackCommand { get; }
     public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
     public FileReader FileReader {get; set;}
     public OpenTriviaClient OpenTriviaClient { get; set;}
@@ -41,6 +42,7 @@ public class MainWindowViewModel : ViewModelBase
         ShowMenuCommand = new DelegateCommand(ToggleMenu);
         AddPackCommand = new DelegateCommand(AddPack);
         RemovePackCommand = new DelegateCommand(RemovePack);
+        SetActivePackCommand = new DelegateCommand(SetActivePack);
 
         Packs = loadedPacks.GetAwaiter().GetResult();
         ActivePack = Packs.FirstOrDefault();
@@ -53,6 +55,15 @@ public class MainWindowViewModel : ViewModelBase
 
         CollapsibleMenuVisibility = Visibility.Collapsed;
         CurrentView = PlayerView;
+    }
+
+    private void SetActivePack(object obj)
+    {
+        if (obj is QuestionPackViewModel selectedPack)
+        {
+            ActivePack = selectedPack; // Set the selected pack as the active pack
+            // Optionally, you can add logic to update the UI or perform other actions
+        }
     }
 
     public UserControl CurrentView
@@ -78,7 +89,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         get => _activePack;
         set
-        {
+        {          
             _activePack = value;
             RaisePropertyChanged();
 
@@ -99,6 +110,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         ConfigurationViewModel = new ConfigurationViewModel(this);
         CurrentView = new ConfigurationView(ConfigurationViewModel);
+        ConfigurationViewModel.AutoSelectFirstQuestion();
     }
     private void ToggleMenu(object obj)
     {
@@ -137,7 +149,6 @@ public class MainWindowViewModel : ViewModelBase
     {
         Packs.Remove(ActivePack);
         ActivePack = Packs.FirstOrDefault();
-
     }
 
     private void AddPack(object obj)
