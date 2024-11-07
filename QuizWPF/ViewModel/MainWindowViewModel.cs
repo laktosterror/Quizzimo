@@ -61,8 +61,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         if (obj is QuestionPackViewModel selectedPack)
         {
-            ActivePack = selectedPack; // Set the selected pack as the active pack
-            // Optionally, you can add logic to update the UI or perform other actions
+            ActivePack = selectedPack; 
         }
     }
 
