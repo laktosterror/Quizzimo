@@ -36,8 +36,6 @@ namespace QuizWPF.Model
             var responseString = await response.Content.ReadAsStringAsync();
             var openTriviaToken = JsonSerializer.Deserialize<OpenTriviaToken>(responseString);
             Token = openTriviaToken.token;
-            
-            Thread.Sleep(10000);
 
             await Task.Delay(10000);
 

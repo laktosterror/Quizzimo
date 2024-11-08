@@ -12,6 +12,7 @@ public class PlayerViewModel : ViewModelBase
     private readonly MainWindowViewModel? _mainWindowViewModel;
     public QuestionPackViewModel? ActivePack => _mainWindowViewModel?.ActivePack;
     private Question _activeQuestion;
+    private bool hasAnswered;
 
     private ObservableCollection<string> _buttonMouseOverBackgroundColors;
     public ObservableCollection<string> ButtonMouseOverBackgroundColors
@@ -90,14 +91,20 @@ public class PlayerViewModel : ViewModelBase
 
     private async void AnswerButton(object obj)
     {
-        var index = Convert.ToInt32(obj);
-        if (ShuffeledAnswers[index] == ActiveQuestion.CorrectAnswer)
+        if (!hasAnswered)
         {
-            AmountOfCorrectAnswers++;
-        }
+            hasAnswered = true;
 
-        await SetButtonBackgroundColors();
-        LoadNextQuestion();
+            var index = Convert.ToInt32(obj);
+            if (ShuffeledAnswers[index] == ActiveQuestion.CorrectAnswer)
+            {
+                AmountOfCorrectAnswers++;
+            }
+
+            await SetButtonBackgroundColors();
+            LoadNextQuestion();
+            hasAnswered = false;
+        }
     }
 
     public void Timer_Tick(object sender, EventArgs e)
@@ -131,7 +138,6 @@ public class PlayerViewModel : ViewModelBase
         }
 
         await Task.Delay(50);
-
     }
 
     public void ShuffleAnswersForActiveQuestion(Question question)
@@ -150,6 +156,7 @@ public class PlayerViewModel : ViewModelBase
             TimeLeft = ActivePack.TimeLimitSeconds;
             ActiveQuestion = ActivePack.Questions[IndexOfActiveQuestion];
             ShuffleAnswersForActiveQuestion(ActiveQuestion);
+            IndexOfActiveQuestion++;
         }
     }
 
@@ -157,10 +164,10 @@ public class PlayerViewModel : ViewModelBase
     {
         if (IndexOfActiveQuestion < ActivePack.Questions.Count)
         {
-            IndexOfActiveQuestion++;
             TimeLeft = ActivePack.TimeLimitSeconds;
             ActiveQuestion = ActivePack.Questions[IndexOfActiveQuestion -1];
             ShuffleAnswersForActiveQuestion(ActiveQuestion);
+            IndexOfActiveQuestion++;
         }
         else
         {
