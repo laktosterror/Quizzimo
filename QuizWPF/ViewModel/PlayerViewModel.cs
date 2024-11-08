@@ -12,6 +12,30 @@ public class PlayerViewModel : ViewModelBase
     private readonly MainWindowViewModel? _mainWindowViewModel;
     public QuestionPackViewModel? ActivePack => _mainWindowViewModel?.ActivePack;
     private Question _activeQuestion;
+
+    private ObservableCollection<string> _buttonMouseOverBackgroundColors;
+    public ObservableCollection<string> ButtonMouseOverBackgroundColors
+    {
+        get => _buttonMouseOverBackgroundColors;
+        set
+        { 
+            _buttonMouseOverBackgroundColors = value;
+            RaisePropertyChanged();
+        }
+    }
+
+
+    private ObservableCollection<string> _buttonBackgroundColors;
+    public ObservableCollection<string> ButtonBackgroundColors
+    {
+        get => _buttonBackgroundColors;
+        set 
+        { 
+            _buttonBackgroundColors = value;
+            RaisePropertyChanged();
+        }
+    }
+
     private ObservableCollection<string> _shuffeledAnswers;
     public ObservableCollection<string> ShuffeledAnswers
     { 
@@ -44,7 +68,9 @@ public class PlayerViewModel : ViewModelBase
     public DelegateCommand AnswerButtonCommand { get; }
     public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
     {
+        ButtonMouseOverBackgroundColors = ["DarkOrange", "DarkOrange", "DarkOrange", "DarkOrange"]; 
         PlayerBackground = "#202937";
+        ButtonBackgroundColors = ["WhiteSmoke", "WhiteSmoke", "WhiteSmoke", "WhiteSmoke"];
         ShuffeledAnswers = [];
         IndexOfActiveQuestion = 0;
         this._mainWindowViewModel = mainWindowViewModel;
@@ -64,16 +90,13 @@ public class PlayerViewModel : ViewModelBase
 
     private async void AnswerButton(object obj)
     {
-        if ((string)obj == ActiveQuestion.CorrectAnswer)
+        var index = Convert.ToInt32(obj);
+        if (ShuffeledAnswers[index] == ActiveQuestion.CorrectAnswer)
         {
             AmountOfCorrectAnswers++;
-            await FlashBackgroundGreen();
-        }
-        else
-        {
-            await FlashBackgroundRed();
         }
 
+        await SetButtonBackgroundColors();
         LoadNextQuestion();
     }
 
@@ -87,26 +110,28 @@ public class PlayerViewModel : ViewModelBase
         }
     }
 
-    private async Task FlashBackgroundGreen()
+    private async Task SetButtonBackgroundColors()
     {
-        for (int i = 0; i < 1; i++)
-        {
-            PlayerBackground = "Green";
-            await Task.Delay(2000);
-            PlayerBackground = "#202937";
-            await Task.Delay(50);
-        }
-    }
+        var indexOfCorrectAnswer = ShuffeledAnswers.IndexOf(ActiveQuestion.CorrectAnswer);
 
-    private async Task FlashBackgroundRed()
-    {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < ShuffeledAnswers.Count; i++)
         {
-            PlayerBackground = "Red";
-            await Task.Delay(150);
-            PlayerBackground = "#202937";
-            await Task.Delay(150);
+            ButtonMouseOverBackgroundColors[i] = "Red";
+            ButtonBackgroundColors[i] = "Red";
         }
+
+        ButtonMouseOverBackgroundColors[indexOfCorrectAnswer] = "Green";
+        ButtonBackgroundColors[indexOfCorrectAnswer] = "Green";
+        await Task.Delay(2000);
+
+        for (int i = 0; i < ShuffeledAnswers.Count; i++)
+        {
+            ButtonMouseOverBackgroundColors[i] = "DarkOrange";
+            ButtonBackgroundColors[i] = "WhiteSmoke";
+        }
+
+        await Task.Delay(50);
+
     }
 
     public void ShuffleAnswersForActiveQuestion(Question question)

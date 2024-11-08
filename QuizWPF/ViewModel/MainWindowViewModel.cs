@@ -32,9 +32,9 @@ public class MainWindowViewModel : ViewModelBase
         FileReader = new FileReader(@"./data.json");
         var loadedPacks = FileReader.ReadFromFileAsync();
 
-        OpenTriviaClient = new OpenTriviaClient();
-        OpenTriviaClient.LoadTokenAsync();
-        OpenTriviaClient.LoadCategoriesAsync();
+        //OpenTriviaClient = new OpenTriviaClient();
+        //OpenTriviaClient.LoadTokenAsync();
+        //OpenTriviaClient.LoadCategoriesAsync();
 
         ShowPlayViewCommand = new DelegateCommand(ShowPlayView);
         ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);

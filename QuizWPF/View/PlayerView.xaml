@@ -39,12 +39,12 @@
                            Width="200"
                            Margin="10"
                            CornerRadius="10" 
-                           Background="WhiteSmoke"
-                           MouseOverBackground="DarkOrange"
+                           Background="{Binding ButtonBackgroundColors[0]}"
+                           MouseOverBackground="{Binding ButtonMouseOverBackgroundColors[0]}"
                            PressedBackground="OrangeRed"
                            HorizontalAlignment="Right"
                            Command="{Binding AnswerButtonCommand}"
-                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"/>
+                           CommandParameter="0"/>
                 
                 <ui:Button Grid.Row="0"
                            Grid.Column="1"
@@ -56,13 +56,13 @@
                            Width="200"
                            Margin="10"
                            CornerRadius="10" 
-                           Background="WhiteSmoke"
-                           MouseOverBackground="DarkOrange"
+                           Background="{Binding ButtonBackgroundColors[1]}"
+                           MouseOverBackground="{Binding ButtonMouseOverBackgroundColors[1]}"
                            PressedBackground="OrangeRed"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            Command="{Binding AnswerButtonCommand}"
-                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"/>
+                           CommandParameter="1"/>
 
                 <ui:Button Grid.Row="1"
                            Grid.Column="0"
@@ -74,13 +74,13 @@
                            Width="200"
                            Margin="10"
                            CornerRadius="10" 
-                           Background="WhiteSmoke"
-                           MouseOverBackground="DarkOrange"
+                           Background="{Binding ButtonBackgroundColors[2]}"
+                           MouseOverBackground="{Binding ButtonMouseOverBackgroundColors[2]}"
                            PressedBackground="OrangeRed"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Right"
                            Command="{Binding AnswerButtonCommand}"
-                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"/>
+                           CommandParameter="2"/>
 
                 <ui:Button Grid.Row="1"
                            Grid.Column="1"
@@ -92,13 +92,14 @@
                            Width="200"
                            Margin="10"
                            CornerRadius="10" 
-                           Background="WhiteSmoke"
-                           MouseOverBackground="DarkOrange"
+                           Background="{Binding ButtonBackgroundColors[3]}"
+                           MouseOverBackground="{Binding ButtonMouseOverBackgroundColors[3]}"
                            PressedBackground="OrangeRed"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            Command="{Binding AnswerButtonCommand}"
-                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"/>
+                           CommandParameter="3">
+                </ui:Button>
 
             </Grid>
             <DockPanel HorizontalAlignment="Center">
