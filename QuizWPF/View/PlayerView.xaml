@@ -18,7 +18,9 @@
                         HorizontalAlignment="Center"
                         Foreground="WhiteSmoke"
                         FontSize="25" 
-                        Margin="25" FontFamily="Sitka Text" />
+                        Margin="25" FontFamily="Sitka Text"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100"/>
@@ -44,7 +46,8 @@
                            PressedBackground="OrangeRed"
                            HorizontalAlignment="Right"
                            Command="{Binding AnswerButtonCommand}"
-                           CommandParameter="0"/>
+                           CommandParameter="0"
+                           />
                 
                 <ui:Button Grid.Row="0"
                            Grid.Column="1"

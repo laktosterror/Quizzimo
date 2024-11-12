@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
+using System.Net;
+using System.Text.Json.Serialization;
 
 namespace QuizWPF.Model
 {
@@ -15,59 +17,21 @@ namespace QuizWPF.Model
     {
         readonly HttpClient httpClient = new();
         readonly string OpenTriviaUriBase = "https://opentdb.com/";
-        readonly string OpenTriviaUriTokenPath = "api_token.php?command=request";
         readonly string OpenTriviaUriCategoryPath = "api_category.php";
-        string Token = string.Empty;
-        public Trivia_Categories[] Categories;
-        public int SelectedAmount;
-        public string SelectedCategory;
-        public string SelectedDifficulty;
 
-
-        public async void LoadTokenAsync()
+        public async Task<OpenTriviaCategories> LoadCategoriesAsync()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, (OpenTriviaUriBase + OpenTriviaUriTokenPath));
-            //request.Headers.Add("Cookie", "PHPSESSID=2ff588d198ce1cae1baf38d6ad3869b9");
-            var content = new StringContent("", null, "text/plain");
-            request.Content = content;
-            var response = await httpClient.SendAsync(request);
-
-            response.EnsureSuccessStatusCode();
-            var responseString = await response.Content.ReadAsStringAsync();
-            var openTriviaToken = JsonSerializer.Deserialize<OpenTriviaToken>(responseString);
-            Token = openTriviaToken.token;
-
-            await Task.Delay(10000);
-
+            var response = await httpClient.GetStringAsync("https://opentdb.com/api_category.php");
+            var openTriviaCategories = JsonSerializer.Deserialize<OpenTriviaCategories>(response);
+            return openTriviaCategories;
         }
 
-        public async void LoadCategoriesAsync()
+        public async Task<OpenTriviaQuestions> GetQuestionsAsync(int SelectedAmount, int SelectedCategory, string SelectedDifficulty)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, (OpenTriviaUriBase + OpenTriviaUriCategoryPath));
-            //request.Headers.Add("Cookie", "PHPSESSID=2ff588d198ce1cae1baf38d6ad3869b9");
-            var content = new StringContent("", null, "text/plain");
-            request.Content = content;
-            var response = await httpClient.SendAsync(request);
+            var response = await httpClient
+                .GetStringAsync(OpenTriviaUriBase + $"api.php?amount={SelectedAmount}&category={SelectedCategory}&difficulty={SelectedDifficulty.ToLower()}&type=multiple");
 
-            response.EnsureSuccessStatusCode();
-            var responseString = await response.Content.ReadAsStringAsync();
-            var openTriviaCategories = JsonSerializer.Deserialize<OpenTriviaCategories>(responseString);
-
-            Categories = openTriviaCategories.trivia_categories;
-
-        }
-
-        public async Task<OpenTriviaQuestions> GetQuestions()
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get, (OpenTriviaUriBase + $"api.php?amount={SelectedAmount}&category={SelectedCategory}&difficulty={SelectedDifficulty}&type=multiple&token={Token}"));
-            //request.Headers.Add("Cookie", "PHPSESSID=2ff588d198ce1cae1baf38d6ad3869b9");
-            var content = new StringContent("", null, "text/plain");
-            request.Content = content;
-            var response = await httpClient.SendAsync(request);
-
-            response.EnsureSuccessStatusCode();
-            var responseString = await response.Content.ReadAsStringAsync();
-            var openTriviaquestions = JsonSerializer.Deserialize<OpenTriviaQuestions>(responseString);
+            var openTriviaquestions = JsonSerializer.Deserialize<OpenTriviaQuestions>(response);
             return openTriviaquestions;
         }
     }

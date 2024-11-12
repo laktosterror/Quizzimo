@@ -12,6 +12,13 @@ public class Question : ViewModelBase
         Query = query;
         CorrectAnswer = correctAnswer;
         IncorrectAnswers = [incorrectAnswer1, incorrectAnswer2, correctAnswer3];
+    }    
+    
+    public Question(string query, string correctAnswer, string[] incorrectAnswers)
+    {
+        Query = query;
+        CorrectAnswer = correctAnswer;
+        IncorrectAnswers = incorrectAnswers;
     }
 
     [JsonConstructor]

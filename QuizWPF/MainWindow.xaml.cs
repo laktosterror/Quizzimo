@@ -50,36 +50,4 @@ public partial class MainWindow : Window
         // Prevent the FocusableMenuView from collapsing when clicked
         e.Handled = true; // Mark the event as handled
     }
-
-    private void Window_KeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Key.F11)
-        {
-            ToggleFullscreen();
-        }
-    }
-
-    private void ToggleFullscreen()
-    {
-        if (WindowStyle == WindowStyle.None)
-        {
-            // Exit fullscreen
-            AllowsTransparency = AllowsTransparency.Equals(false);
-            WindowStyle = WindowStyle.SingleBorderWindow;
-            WindowState = WindowState.Normal;
-            ResizeMode = ResizeMode.CanResize;
-            Top = 100; // Set to your desired position
-            Left = 100; // Set to your desired position
-            Width = 800; // Set to your desired width
-            Height = 600; // Set to your desired height
-        }
-        else
-        {
-            // Enter fullscreen
-            AllowsTransparency = AllowsTransparency.Equals(true);
-            WindowStyle = WindowStyle.None;
-            WindowState = WindowState.Maximized;
-            ResizeMode = ResizeMode.NoResize;
-        }
-    }
 }

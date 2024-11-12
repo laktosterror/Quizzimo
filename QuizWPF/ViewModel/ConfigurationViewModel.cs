@@ -43,6 +43,7 @@ public class ConfigurationViewModel : ViewModelBase
         }
     }
 
+
     public void AddQuestion(object obj)
     {
         ActivePack.Questions.Insert(0, new Question("New Question", "", "", "", ""));

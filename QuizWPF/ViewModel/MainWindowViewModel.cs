@@ -9,6 +9,7 @@ namespace QuizWPF.ViewModel;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    public DelegateCommand ShowImporterViewCommand { get; }
     public DelegateCommand ShowPlayViewCommand { get; }
     public DelegateCommand ShowConfigurationViewCommand { get; }
     public DelegateCommand ExitApplicationCommand { get; }
@@ -19,6 +20,9 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
     public FileReader FileReader {get; set;}
     public OpenTriviaClient OpenTriviaClient { get; set;}
+
+    public ImporterViewModel ImporterViewModel { get; set; }
+    public ImporterView ImporterView { get; }
     public ConfigurationViewModel ConfigurationViewModel { get; set; }
     public ConfigurationView ConfigurationView { get; }
     public PlayerViewModel? PlayerViewModel { get; set; }
@@ -32,10 +36,8 @@ public class MainWindowViewModel : ViewModelBase
         FileReader = new FileReader(@"./data.json");
         var loadedPacks = FileReader.ReadFromFileAsync();
 
-        //OpenTriviaClient = new OpenTriviaClient();
-        //OpenTriviaClient.LoadTokenAsync();
-        //OpenTriviaClient.LoadCategoriesAsync();
 
+        ShowImporterViewCommand = new DelegateCommand(ShowImporterView);
         ShowPlayViewCommand = new DelegateCommand(ShowPlayView);
         ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
         ExitApplicationCommand = new DelegateCommand(ExitApplication);
@@ -47,6 +49,9 @@ public class MainWindowViewModel : ViewModelBase
         Packs = loadedPacks.GetAwaiter().GetResult();
         ActivePack = Packs.FirstOrDefault();
 
+        ImporterViewModel = new ImporterViewModel(this);
+        ImporterView = new ImporterView(ImporterViewModel);
+
         ConfigurationViewModel = new ConfigurationViewModel(this);
         ConfigurationView = new ConfigurationView(ConfigurationViewModel);
 
@@ -56,6 +61,7 @@ public class MainWindowViewModel : ViewModelBase
         CollapsibleMenuVisibility = Visibility.Collapsed;
         CurrentView = PlayerView;
     }
+
 
     private void SetActivePack(object obj)
     {
@@ -95,6 +101,12 @@ public class MainWindowViewModel : ViewModelBase
             ReloadCurrentView();
         }
     }
+    private void ShowImporterView(object obj)
+    {
+        PlayerViewModel.Timer.Stop();
+
+        CurrentView = new ImporterView(ImporterViewModel);
+    }
     private void ShowPlayView(object obj)
     {
         PlayerViewModel = new PlayerViewModel(this);
@@ -103,13 +115,36 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowResultsView()
     {
+        PlayerViewModel.Timer.Stop();
+
         CurrentView = new ResultsView(PlayerViewModel);
     }
     private void ShowConfigurationView(object obj)
     {
+        PlayerViewModel.Timer.Stop();
+
         ConfigurationViewModel = new ConfigurationViewModel(this);
         CurrentView = new ConfigurationView(ConfigurationViewModel);
         ConfigurationViewModel.AutoSelectFirstQuestion();
+    }
+
+    public void ReloadCurrentView()
+    {
+        switch (CurrentView)
+        {
+            case PlayerView playerView:
+                ShowPlayView(null);
+                break;
+            case ConfigurationView configurationView:
+                ShowConfigurationView(null);
+                break;
+            case ImporterView importerView:
+                ShowImporterView(null);
+                break;
+            default:
+                ShowPlayView(null);
+                break;
+        }
     }
     private void ToggleMenu(object obj)
     {
@@ -120,21 +155,6 @@ public class MainWindowViewModel : ViewModelBase
         else
         {
             CollapsibleMenuVisibility = Visibility.Visible;
-        }
-    }
-
-    public void ReloadCurrentView()
-    {
-        if (CurrentView is ConfigurationView)
-        {
-            ConfigurationViewModel = new ConfigurationViewModel(this);
-            CurrentView = new ConfigurationView(ConfigurationViewModel);
-            ConfigurationViewModel.AutoSelectFirstQuestion();
-        }
-        else
-        {
-            PlayerViewModel = new PlayerViewModel(this);
-            CurrentView = new PlayerView(PlayerViewModel);
         }
     }
 

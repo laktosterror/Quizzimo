@@ -63,7 +63,7 @@ public class PlayerViewModel : ViewModelBase
     private int _indexOfActiveQuestion;
     private int _amountOfCorrectAnswers;
 
-    private DispatcherTimer timer;
+    public DispatcherTimer Timer { get; }
     private int _CorrectQuestions;
 
     public DelegateCommand AnswerButtonCommand { get; }
@@ -73,20 +73,14 @@ public class PlayerViewModel : ViewModelBase
         PlayerBackground = "#202937";
         ButtonBackgroundColors = ["WhiteSmoke", "WhiteSmoke", "WhiteSmoke", "WhiteSmoke"];
         ShuffeledAnswers = [];
-        IndexOfActiveQuestion = 0;
         this._mainWindowViewModel = mainWindowViewModel;
 
         AnswerButtonCommand = new DelegateCommand(AnswerButton);
 
-        timer = new DispatcherTimer();
-        timer.Interval = TimeSpan.FromSeconds(1);
-        timer.Tick += Timer_Tick;
-        timer.Start();
-
-        if (ActivePack != null)
-        {
-            LoadFirstQuestion();
-        }
+        Timer = new DispatcherTimer();
+        Timer.Interval = TimeSpan.FromSeconds(1);
+        Timer.Tick += Timer_Tick;
+        Timer.Start();
     }
 
     private async void AnswerButton(object obj)
@@ -109,12 +103,12 @@ public class PlayerViewModel : ViewModelBase
 
     public void Timer_Tick(object sender, EventArgs e)
     {
-        TimeLeft--;
 
         if (TimeLeft <= 0)
         {
             LoadNextQuestion();
         }
+        TimeLeft--;
     }
 
     private async Task SetButtonBackgroundColors()
@@ -149,7 +143,7 @@ public class PlayerViewModel : ViewModelBase
         ShuffeledAnswers = new ObservableCollection<string>(randomizedList);
     }
 
-    public void LoadFirstQuestion()
+    public void LoadNextQuestion()
     {
         if (IndexOfActiveQuestion < ActivePack.Questions.Count)
         {
@@ -158,21 +152,9 @@ public class PlayerViewModel : ViewModelBase
             ShuffleAnswersForActiveQuestion(ActiveQuestion);
             IndexOfActiveQuestion++;
         }
-    }
-
-    public void LoadNextQuestion()
-    {
-        if (IndexOfActiveQuestion < ActivePack.Questions.Count)
-        {
-            TimeLeft = ActivePack.TimeLimitSeconds;
-            ActiveQuestion = ActivePack.Questions[IndexOfActiveQuestion -1];
-            ShuffleAnswersForActiveQuestion(ActiveQuestion);
-            IndexOfActiveQuestion++;
-        }
         else
         {
             _mainWindowViewModel.ShowResultsView();
-            timer.Stop();
         }
     }
 
@@ -186,6 +168,7 @@ public class PlayerViewModel : ViewModelBase
         }
     }
 
+
     public int IndexOfActiveQuestion
     {
         get => _indexOfActiveQuestion;
@@ -195,7 +178,6 @@ public class PlayerViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-
 
     public int TimeLeft
     {
