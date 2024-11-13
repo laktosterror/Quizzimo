@@ -113,13 +113,11 @@ public class ImporterViewModel : ViewModelBase
                     case 0:
                         foreach (var question in openTriviaResponse.results)
                         {
-                            // Decode the HTML encoded strings
                             var decodedQuestion = WebUtility.HtmlDecode(question.question);
                             var decodedCorrectAnswer = WebUtility.HtmlDecode(question.correct_answer);
                             string[] decodedIncorrectAnswers =
                                 question.incorrect_answers.Select(WebUtility.HtmlDecode).ToArray();
 
-                            // Add the decoded question and answers to the ActivePack
                             ActivePack?.Questions.Add(new Question(decodedQuestion, decodedCorrectAnswer,
                                 decodedIncorrectAnswers));
                         }
@@ -164,8 +162,15 @@ public class ImporterViewModel : ViewModelBase
     {
         if (IsOnline)
         {
-            TriviaCategories = await Task.Run(() => OpenTriviaClient.LoadCategoriesAsync());
-            SelectedTriviaCategory = TriviaCategories.trivia_categories.FirstOrDefault();
+            try
+            {
+                TriviaCategories = await Task.Run(() => OpenTriviaClient.LoadCategoriesAsync());
+                SelectedTriviaCategory = TriviaCategories.trivia_categories.FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                _mainWindowViewModel.ShowErrorSnackbarMessage("Error", e.Message);
+            }
         }
         else
         {
@@ -194,10 +199,8 @@ public class ImporterViewModel : ViewModelBase
         {
             using (var client = new HttpClient())
             {
-                // Set a timeout for the request
                 client.Timeout = TimeSpan.FromSeconds(5);
 
-                // Send a GET request to a reliable website
                 var response = client.GetAsync("http://www.google.com").Result;
 
                 PreviousIsOnlineState = IsOnline;

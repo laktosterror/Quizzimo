@@ -13,13 +13,6 @@ public class QuestionPackViewModel : ViewModelBase
     public QuestionPack Model { get; set; }
     public ObservableCollection<Question> Questions { get; set; } = [];
 
-    //[JsonConstructor]
-    //public QuestionPackViewModel()
-    //{
-    //    Model = new QuestionPack() { Questions = [] };
-    //    
-    //}
-
     public string Name
     {
         get => Model.Name;

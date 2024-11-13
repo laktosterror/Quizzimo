@@ -2,10 +2,11 @@
 using System.IO;
 using System.Text.Json;
 using QuizWPF.ViewModel;
+using Wpf.Ui;
 
 namespace QuizWPF.Model;
 
-public class FileReader(string dataPath)
+public class FileReader(string dataPath, MainWindowViewModel _mainWindowViewModel)
 {
     private readonly string DataPath = dataPath;
 
@@ -18,7 +19,7 @@ public class FileReader(string dataPath)
         }
         catch
         {
-            Console.WriteLine("Error: Could not save data to file!");
+           _mainWindowViewModel.ShowErrorSnackbarMessage("Error", "Could not write to file, is it open in another program?");
         }
     }
 
@@ -44,7 +45,7 @@ public class FileReader(string dataPath)
         }
         catch
         {
-            Console.WriteLine("Error: Could not read data from file!");
+            _mainWindowViewModel.ShowErrorSnackbarMessage("Error", "Could not read from file!");
         }
 
         return null;

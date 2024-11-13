@@ -19,7 +19,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         this.snackbarService = snackbarService;
 
-        FileReader = new FileReader(@"./data.json");
+        FileReader = new FileReader(@"./data.json", this);
         var loadedPacks = FileReader.ReadFromFileAsync();
 
 
