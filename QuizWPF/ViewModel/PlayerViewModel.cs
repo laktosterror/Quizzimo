@@ -183,7 +183,7 @@ public class PlayerViewModel : ViewModelBase
 
     public void LoadNextQuestion()
     {
-        if (IndexOfActiveQuestion < ActivePack.Questions.Count)
+        if (ActivePack != null && IndexOfActiveQuestion < ActivePack.Questions.Count)
         {
             TimeLeft = ActivePack.TimeLimitSeconds;
             ActiveQuestion = ActivePack.Questions[IndexOfActiveQuestion];
@@ -192,6 +192,8 @@ public class PlayerViewModel : ViewModelBase
         }
         else
         {
+            Timer.Stop();
+            TimeLeft = 30;
             _mainWindowViewModel.ShowResultsView();
         }
     }
