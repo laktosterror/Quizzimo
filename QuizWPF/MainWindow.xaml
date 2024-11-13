@@ -4,34 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        xmlns:local="clr-namespace:QuizWPF"
         xmlns:view="clr-namespace:QuizWPF.View"
-        xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
+        xmlns:viewmodel="clr-namespace:QuizWPF.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" 
-        Height="610" 
-        Width="930" 
-        WindowStyle="None" 
-        ResizeMode="NoResize" 
-        Background="Transparent" 
+        Title="MainWindow"
+        Height="610"
+        Width="930"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
         AllowsTransparency="True"
         MouseDown="Window_MouseDown">
     <Window.InputBindings>
-        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding ExitApplicationCommand}"/>
-        <KeyBinding Key="Q" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
-        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"/>
-        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding ShowConfigurationViewCommand}"/>
-        <KeyBinding Key="P" Modifiers="Ctrl" Command="{Binding ShowPlayViewCommand}"/>
-        <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding ShowConfigurationViewCommand}"/>
-        <KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding ShowImporterViewCommand}"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding ExitApplicationCommand}" />
+        <KeyBinding Key="Q" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.AddQuestionCommand}" />
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}" />
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding ShowConfigurationViewCommand}" />
+        <KeyBinding Key="P" Modifiers="Ctrl" Command="{Binding ShowPlayViewCommand}" />
+        <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding ShowConfigurationViewCommand}" />
+        <KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding ShowImporterViewCommand}" />
     </Window.InputBindings>
 
     <Border Background="WhiteSmoke"
             CornerRadius="25"
             Margin="5">
         <Border.Effect>
-            <DropShadowEffect BlurRadius="5" 
+            <DropShadowEffect BlurRadius="5"
                               Direction="-90"
                               RenderingBias="Quality"
                               ShadowDepth="0.5" />
@@ -40,202 +39,202 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
-                <RowDefinition Height="1"/>
+                <RowDefinition Height="1" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="75"/>
-                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="1" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Row="0" Grid.Column="1" Background="LightGray"></Border>
-            <Border Grid.Row="1" Grid.Column="2" Background="LightGray"></Border>
-            <Border Grid.Row="2" Grid.Column="1" Background="LightGray"></Border>
+            <Border Grid.Row="0" Grid.Column="1" Background="LightGray" />
+            <Border Grid.Row="1" Grid.Column="2" Background="LightGray" />
+            <Border Grid.Row="2" Grid.Column="1" Background="LightGray" />
 
             <ui:Button ToolTip="Show menu"
-                        ToolTipService.InitialShowDelay="100"
-                        ToolTipService.Placement="Right"
-                        ToolTipService.HorizontalOffset="26.5"
-                        ToolTipService.VerticalOffset="6"
+                       ToolTipService.InitialShowDelay="100"
+                       ToolTipService.Placement="Right"
+                       ToolTipService.HorizontalOffset="26.5"
+                       ToolTipService.VerticalOffset="6"
                        Margin="10"
-                        BorderThickness="0"
-                        Appearance="Transparent"
-                        FontSize="38"
-                        Height="55"
-                        Width="55"
-                        CornerRadius="20 5 5 5" 
-                        MouseOverBackground="DarkOrange"
+                       BorderThickness="0"
+                       Appearance="Transparent"
+                       FontSize="38"
+                       Height="55"
+                       Width="55"
+                       CornerRadius="20 5 5 5"
+                       MouseOverBackground="DarkOrange"
                        PressedBackground="OrangeRed"
-                        Icon="{ui:SymbolIcon Symbol=CalendarAgenda20}" 
-                        Command="{Binding ShowMenuCommand}">
-            </ui:Button>
+                       Icon="{ui:SymbolIcon Symbol=CalendarAgenda20}"
+                       Command="{Binding ShowMenuCommand}" />
 
-            <TextBlock  Grid.Column="2"
-                        Text="Quizzimo"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Left"
-                        Foreground="Black"
-                        FontSize="46" FontFamily="Sitka Small" Margin="25,0,0,0" />
-            
-            <Grid Grid.Row="0" Grid.Column="2" x:Name="ContentGrid" Background="Transparent"/>
+            <TextBlock Grid.Column="2"
+                       Text="Quizzimo"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Foreground="Black"
+                       FontSize="46" FontFamily="Sitka Small" Margin="25,0,0,0" />
 
-            <Border Grid.Column="2" Margin=" 10 10 75 10" BorderThickness="2" BorderBrush="LightGray" CornerRadius="5" HorizontalAlignment="Right" Background="#202937" Height="55">
-                <DockPanel Grid.Column="2" HorizontalAlignment="Stretch">
-                    <ui:TextBlock VerticalAlignment="Center" 
-                                  HorizontalAlignment="Right" 
-                                  Text="Active Pack:" 
-                                  Foreground="WhiteSmoke" 
-                                  FontFamily="Sitka Small" 
-                                  FontSize="14" 
-                                  Margin="10 0 5 0"/>
+            <Grid Grid.Row="0" Grid.Column="2" x:Name="ContentGrid" Background="Transparent" />
+
+            <Border Grid.Column="2" Margin=" 10 10 75 10" BorderThickness="2" BorderBrush="LightGray" CornerRadius="5"
+                    HorizontalAlignment="Right" Background="#202937" Height="55">
+                <DockPanel HorizontalAlignment="Stretch">
+                    <ui:TextBlock VerticalAlignment="Center"
+                                  HorizontalAlignment="Right"
+                                  Text="Active Pack:"
+                                  Foreground="WhiteSmoke"
+                                  FontFamily="Sitka Small"
+                                  FontSize="14"
+                                  Margin="10 0 5 0" />
                     <ComboBox Width="170"
                               Height="35"
                               BorderThickness="0"
-                              ItemsSource="{Binding Packs}" 
-                              SelectedItem="{Binding ActivePack}" 
+                              ItemsSource="{Binding Packs}"
+                              SelectedItem="{Binding ActivePack}"
                               Background="WhiteSmoke">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Name}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <ui:Button  ToolTip="Create New Pack"
-                            ToolTipService.InitialShowDelay="100"
-                            ToolTipService.Placement="Right"
-                            ToolTipService.HorizontalOffset="26.5"
-                            ToolTipService.VerticalOffset="6"
-                            Appearance="Transparent"
-                            Background="WhiteSmoke"
-                            FontSize="12"
-                            CornerRadius="10" 
-                            Height="35"
-                            Width="35"
-                            Margin="10 0 10 0"
-                            MouseOverBackground="DarkOrange"
-                            PressedBackground="OrangeRed"
-                            Icon="{ui:SymbolIcon Symbol=Add16}" 
-                            Command="{Binding AddPackCommand}"/>
-                    <ui:Button  ToolTip="Delete Active Pack"
-                            ToolTipService.InitialShowDelay="100"
-                            ToolTipService.Placement="Right"
-                            ToolTipService.HorizontalOffset="26.5"
-                            ToolTipService.VerticalOffset="6"
-                            Appearance="Transparent"
-                            Background="WhiteSmoke"
-                            FontSize="12"
-                            CornerRadius="10" 
-                            Height="35"
-                            Width="35"
-                            Margin="0 0 10 0"
-                            MouseOverBackground="DarkOrange"
-                            PressedBackground="OrangeRed"
-                            Icon="{ui:SymbolIcon Symbol=Subtract16}" 
-                            Command="{Binding RemovePackCommand}"/>
+                    <ui:Button ToolTip="Create New Pack"
+                               ToolTipService.InitialShowDelay="100"
+                               ToolTipService.Placement="Right"
+                               ToolTipService.HorizontalOffset="26.5"
+                               ToolTipService.VerticalOffset="6"
+                               Appearance="Transparent"
+                               Background="WhiteSmoke"
+                               FontSize="12"
+                               CornerRadius="10"
+                               Height="35"
+                               Width="35"
+                               Margin="10 0 10 0"
+                               MouseOverBackground="DarkOrange"
+                               PressedBackground="OrangeRed"
+                               Icon="{ui:SymbolIcon Symbol=Add16}"
+                               Command="{Binding AddPackCommand}" />
+                    <ui:Button ToolTip="Delete Active Pack"
+                               ToolTipService.InitialShowDelay="100"
+                               ToolTipService.Placement="Right"
+                               ToolTipService.HorizontalOffset="26.5"
+                               ToolTipService.VerticalOffset="6"
+                               Appearance="Transparent"
+                               Background="WhiteSmoke"
+                               FontSize="12"
+                               CornerRadius="10"
+                               Height="35"
+                               Width="35"
+                               Margin="0 0 10 0"
+                               MouseOverBackground="DarkOrange"
+                               PressedBackground="OrangeRed"
+                               Icon="{ui:SymbolIcon Symbol=Subtract16}"
+                               Command="{Binding RemovePackCommand}" />
                 </DockPanel>
             </Border>
 
             <Border x:Name="CollapsibleMenuView"
-                    Grid.Row="0" 
-                    Grid.Column="2" 
-                    Background="LightGray" 
-                    CornerRadius="5" 
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Background="LightGray"
+                    CornerRadius="5"
                     Margin="10 10 75 0"
-                    Height="55" 
+                    Height="55"
                     VerticalAlignment="Top"
                     Visibility="{Binding CollapsibleMenuVisibility}"
                     MouseDown="CollapsibleMenuView_MouseDown">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" 
-                                Direction="-90"
-                                RenderingBias="Quality" 
-                                ShadowDepth="0.5" />
+                    <DropShadowEffect BlurRadius="10"
+                                      Direction="-90"
+                                      RenderingBias="Quality"
+                                      ShadowDepth="0.5" />
                 </Border.Effect>
-                <view:MenuView/>
+                <view:MenuView />
             </Border>
 
             <Grid Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <StackPanel HorizontalAlignment="Right">
                     <ui:Button Margin="10"
-                                BorderThickness="0"
-                                Appearance="Transparent"
-                                FontSize="38"
-                                Height="55"
-                                Width="55"
-                                CornerRadius="5 20 5 5"
+                               BorderThickness="0"
+                               Appearance="Transparent"
+                               FontSize="38"
+                               Height="55"
+                               Width="55"
+                               CornerRadius="5 20 5 5"
                                PressedBackground="DarkRed"
-                                MouseOverBackground="Red"
-                                Icon="{ui:SymbolIcon Symbol=ArrowExit20}" 
-                                Command="{Binding ExitApplicationCommand}">
-                    </ui:Button>
+                               MouseOverBackground="Red"
+                               Icon="{ui:SymbolIcon Symbol=ArrowExit20}"
+                               Command="{Binding ExitApplicationCommand}" />
                 </StackPanel>
             </Grid>
 
             <Grid Grid.Row="2" Grid.Column="0">
                 <StackPanel Grid.Row="1" VerticalAlignment="Top">
-                    <ui:Button  ToolTip="Play quiz game"
-                                ToolTipService.InitialShowDelay="100"
-                                ToolTipService.Placement="Right"
-                                ToolTipService.HorizontalOffset="26.5"
-                                ToolTipService.VerticalOffset="6"
-                                Margin="10"
-                                BorderThickness="0"
-                                Appearance="Transparent"
-                                FontSize="38"
-                                Height="55"
-                                Width="55"
-                                CornerRadius="5" 
-                                MouseOverBackground="DarkOrange"
-                                PressedBackground="OrangeRed"
-                                Icon="{ui:SymbolIcon Symbol=Play20}" 
-                                Command="{Binding ShowPlayViewCommand}"/>
+                    <ui:Button ToolTip="Play quiz game"
+                               ToolTipService.InitialShowDelay="100"
+                               ToolTipService.Placement="Right"
+                               ToolTipService.HorizontalOffset="26.5"
+                               ToolTipService.VerticalOffset="6"
+                               Margin="10"
+                               BorderThickness="0"
+                               Appearance="Transparent"
+                               FontSize="38"
+                               Height="55"
+                               Width="55"
+                               CornerRadius="5"
+                               MouseOverBackground="DarkOrange"
+                               PressedBackground="OrangeRed"
+                               Icon="{ui:SymbolIcon Symbol=Play20}"
+                               Command="{Binding ShowPlayViewCommand}" />
 
-                    <ui:Button  ToolTip="Configure quiz pack"
-                                ToolTipService.InitialShowDelay="100"
-                                ToolTipService.Placement="Right"
-                                ToolTipService.HorizontalOffset="26.5"
-                                ToolTipService.VerticalOffset="6"
-                                Margin="10"
-                                BorderThickness="0"
-                                Appearance="Transparent"
-                                FontSize="38"
-                                Height="55"
-                                Width="55"
-                                CornerRadius="5" 
-                                MouseOverBackground="DarkOrange"
-                                PressedBackground="OrangeRed"
-                                Icon="{ui:SymbolIcon Symbol=Box20}"
-                                Command="{Binding ShowConfigurationViewCommand}"/>
+                    <ui:Button ToolTip="Configure quiz pack"
+                               ToolTipService.InitialShowDelay="100"
+                               ToolTipService.Placement="Right"
+                               ToolTipService.HorizontalOffset="26.5"
+                               ToolTipService.VerticalOffset="6"
+                               Margin="10"
+                               BorderThickness="0"
+                               Appearance="Transparent"
+                               FontSize="38"
+                               Height="55"
+                               Width="55"
+                               CornerRadius="5"
+                               MouseOverBackground="DarkOrange"
+                               PressedBackground="OrangeRed"
+                               Icon="{ui:SymbolIcon Symbol=Box20}"
+                               Command="{Binding ShowConfigurationViewCommand}" />
 
-                    <ui:Button  ToolTip="Import Questions"
-                                ToolTipService.InitialShowDelay="100"
-                                ToolTipService.Placement="Right"
-                                ToolTipService.HorizontalOffset="26.5"
-                                ToolTipService.VerticalOffset="6"
-                                Margin="10"
-                                BorderThickness="0"
-                                Appearance="Transparent"
-                                FontSize="38"
-                                Height="55"
-                                Width="55"
-                                CornerRadius="5" 
-                                MouseOverBackground="DarkOrange"
-                                PressedBackground="OrangeRed"
-                                Icon="{ui:SymbolIcon Symbol=CloudArrowDown20}"
-                                Command="{Binding ShowImporterViewCommand}"/>
+                    <ui:Button ToolTip="Import Questions"
+                               ToolTipService.InitialShowDelay="100"
+                               ToolTipService.Placement="Right"
+                               ToolTipService.HorizontalOffset="26.5"
+                               ToolTipService.VerticalOffset="6"
+                               Margin="10"
+                               BorderThickness="0"
+                               Appearance="Transparent"
+                               FontSize="38"
+                               Height="55"
+                               Width="55"
+                               CornerRadius="5"
+                               MouseOverBackground="DarkOrange"
+                               PressedBackground="OrangeRed"
+                               Icon="{ui:SymbolIcon Symbol=CloudArrowDown20}"
+                               Command="{Binding ShowImporterViewCommand}" />
 
 
                 </StackPanel>
             </Grid>
 
             <Grid Grid.Row="2" Grid.Column="2">
-                <Border CornerRadius="5 5 20 5" Background="#202937" Margin="10" BorderThickness="2" BorderBrush="LightGray">
+                <Border CornerRadius="5 5 20 5" Background="#202937" Margin="10" BorderThickness="2"
+                        BorderBrush="LightGray">
                     <ContentControl x:Name="MainContent" Margin="10" Content="{Binding CurrentView}" />
                 </Border>
-                
-                <ui:SnackbarPresenter  x:Name="SnackbarPresenter"/>
-                
+
+                <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
+
             </Grid>
 
         </Grid>

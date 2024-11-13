@@ -1,15 +1,13 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Collections.ObjectModel;
+using System.Text.Json;
 using QuizWPF.ViewModel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace QuizWPF.Model;
 
 public class FileReader(string dataPath)
 {
-    readonly string DataPath = dataPath;
+    private readonly string DataPath = dataPath;
 
     public async Task WriteToFileAsync(ObservableCollection<QuestionPackViewModel> packs)
     {
@@ -29,22 +27,26 @@ public class FileReader(string dataPath)
         if (!File.Exists(DataPath))
         {
             ObservableCollection<QuestionPackViewModel> newPackCollection = [];
-            var newPack = new QuestionPackViewModel(new QuestionPack("My Question Pack"));
-            newPack.Questions.Add(new Question("Why is the sky so blue?", "Dont worry about it!", "Blue is not a color!", "What about the colorblind?", "Something with light."));
+            var newPack = new QuestionPackViewModel(new QuestionPack());
+            newPack.Questions.Add(new Question("Why is the sky so blue?", "Dont worry about it!",
+                "Blue is not a color!", "What about the colorblind?", "Something with light."));
             newPackCollection.Add(newPack);
 
             await WriteToFileAsync(newPackCollection);
         }
+
         try
         {
             var json = File.ReadAllTextAsync(DataPath);
-            var packs = JsonSerializer.Deserialize<ObservableCollection<QuestionPackViewModel>>(json.GetAwaiter().GetResult());
+            var packs =
+                JsonSerializer.Deserialize<ObservableCollection<QuestionPackViewModel>>(json.GetAwaiter().GetResult());
             return packs;
         }
         catch
         {
             Console.WriteLine("Error: Could not read data from file!");
         }
+
         return null;
     }
 }

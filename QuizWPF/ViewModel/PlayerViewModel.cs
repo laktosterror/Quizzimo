@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Documents;
 using System.Windows.Threading;
-using Microsoft.VisualBasic;
 using QuizWPF.Command;
 using QuizWPF.Model;
 
@@ -10,36 +8,63 @@ namespace QuizWPF.ViewModel;
 public class PlayerViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
-    public QuestionPackViewModel? ActivePack => _mainWindowViewModel?.ActivePack;
     private Question _activeQuestion;
-    private bool hasAnswered;
+    private int _amountOfCorrectAnswers;
+
+
+    private ObservableCollection<string> _buttonBackgroundColors;
 
     private ObservableCollection<string> _buttonMouseOverBackgroundColors;
+    private int _CorrectQuestions;
+    private int _indexOfActiveQuestion;
+
+    private string _playerBackground;
+
+    private ObservableCollection<string> _shuffeledAnswers;
+
+    private int _timeLeft;
+    private bool hasAnswered;
+
+    public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
+    {
+        ButtonMouseOverBackgroundColors = ["DarkOrange", "DarkOrange", "DarkOrange", "DarkOrange"];
+        PlayerBackground = "#202937";
+        ButtonBackgroundColors = ["WhiteSmoke", "WhiteSmoke", "WhiteSmoke", "WhiteSmoke"];
+        ShuffeledAnswers = [];
+        _mainWindowViewModel = mainWindowViewModel;
+
+        AnswerButtonCommand = new DelegateCommand(AnswerButton);
+
+        Timer = new DispatcherTimer();
+        Timer.Interval = TimeSpan.FromSeconds(1);
+        Timer.Tick += Timer_Tick;
+        Timer.Start();
+    }
+
+    public QuestionPackViewModel? ActivePack => _mainWindowViewModel?.ActivePack;
+
     public ObservableCollection<string> ButtonMouseOverBackgroundColors
     {
         get => _buttonMouseOverBackgroundColors;
         set
-        { 
+        {
             _buttonMouseOverBackgroundColors = value;
             RaisePropertyChanged();
         }
     }
 
-
-    private ObservableCollection<string> _buttonBackgroundColors;
     public ObservableCollection<string> ButtonBackgroundColors
     {
         get => _buttonBackgroundColors;
-        set 
-        { 
+        set
+        {
             _buttonBackgroundColors = value;
             RaisePropertyChanged();
         }
     }
 
-    private ObservableCollection<string> _shuffeledAnswers;
     public ObservableCollection<string> ShuffeledAnswers
-    { 
+    {
         get => _shuffeledAnswers;
         set
         {
@@ -48,7 +73,6 @@ public class PlayerViewModel : ViewModelBase
         }
     }
 
-    private string _playerBackground;
     public string PlayerBackground
     {
         get => _playerBackground;
@@ -59,104 +83,9 @@ public class PlayerViewModel : ViewModelBase
         }
     }
 
-    private int _timeLeft;
-    private int _indexOfActiveQuestion;
-    private int _amountOfCorrectAnswers;
-
     public DispatcherTimer Timer { get; }
-    private int _CorrectQuestions;
 
     public DelegateCommand AnswerButtonCommand { get; }
-    public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
-    {
-        ButtonMouseOverBackgroundColors = ["DarkOrange", "DarkOrange", "DarkOrange", "DarkOrange"]; 
-        PlayerBackground = "#202937";
-        ButtonBackgroundColors = ["WhiteSmoke", "WhiteSmoke", "WhiteSmoke", "WhiteSmoke"];
-        ShuffeledAnswers = [];
-        this._mainWindowViewModel = mainWindowViewModel;
-
-        AnswerButtonCommand = new DelegateCommand(AnswerButton);
-
-        Timer = new DispatcherTimer();
-        Timer.Interval = TimeSpan.FromSeconds(1);
-        Timer.Tick += Timer_Tick;
-        Timer.Start();
-    }
-
-    private async void AnswerButton(object obj)
-    {
-        if (!hasAnswered)
-        {
-            hasAnswered = true;
-
-            var index = Convert.ToInt32(obj);
-            if (ShuffeledAnswers[index] == ActiveQuestion.CorrectAnswer)
-            {
-                AmountOfCorrectAnswers++;
-            }
-
-            await SetButtonBackgroundColors();
-            LoadNextQuestion();
-            hasAnswered = false;
-        }
-    }
-
-    public void Timer_Tick(object sender, EventArgs e)
-    {
-
-        if (TimeLeft <= 0)
-        {
-            LoadNextQuestion();
-        }
-        TimeLeft--;
-    }
-
-    private async Task SetButtonBackgroundColors()
-    {
-        var indexOfCorrectAnswer = ShuffeledAnswers.IndexOf(ActiveQuestion.CorrectAnswer);
-
-        for (int i = 0; i < ShuffeledAnswers.Count; i++)
-        {
-            ButtonMouseOverBackgroundColors[i] = "Red";
-            ButtonBackgroundColors[i] = "Red";
-        }
-
-        ButtonMouseOverBackgroundColors[indexOfCorrectAnswer] = "Green";
-        ButtonBackgroundColors[indexOfCorrectAnswer] = "Green";
-        await Task.Delay(2000);
-
-        for (int i = 0; i < ShuffeledAnswers.Count; i++)
-        {
-            ButtonMouseOverBackgroundColors[i] = "DarkOrange";
-            ButtonBackgroundColors[i] = "WhiteSmoke";
-        }
-
-        await Task.Delay(50);
-    }
-
-    public void ShuffleAnswersForActiveQuestion(Question question)
-    {
-        Random random = new();
-        var allAnswers = question.IncorrectAnswers.ToList();
-        allAnswers.Add(question.CorrectAnswer);
-        var randomizedList = allAnswers.OrderBy(x => random.Next()).ToList();
-        ShuffeledAnswers = new ObservableCollection<string>(randomizedList);
-    }
-
-    public void LoadNextQuestion()
-    {
-        if (IndexOfActiveQuestion < ActivePack.Questions.Count)
-        {
-            TimeLeft = ActivePack.TimeLimitSeconds;
-            ActiveQuestion = ActivePack.Questions[IndexOfActiveQuestion];
-            ShuffleAnswersForActiveQuestion(ActiveQuestion);
-            IndexOfActiveQuestion++;
-        }
-        else
-        {
-            _mainWindowViewModel.ShowResultsView();
-        }
-    }
 
     public int AmountOfCorrectAnswers
     {
@@ -196,6 +125,74 @@ public class PlayerViewModel : ViewModelBase
         {
             _activeQuestion = value;
             RaisePropertyChanged();
+        }
+    }
+
+    private async void AnswerButton(object obj)
+    {
+        if (!hasAnswered)
+        {
+            hasAnswered = true;
+
+            var index = Convert.ToInt32(obj);
+            if (ShuffeledAnswers[index] == ActiveQuestion.CorrectAnswer) AmountOfCorrectAnswers++;
+
+            await SetButtonBackgroundColors();
+            LoadNextQuestion();
+            hasAnswered = false;
+        }
+    }
+
+    public void Timer_Tick(object sender, EventArgs e)
+    {
+        if (TimeLeft <= 0) LoadNextQuestion();
+        TimeLeft--;
+    }
+
+    private async Task SetButtonBackgroundColors()
+    {
+        var indexOfCorrectAnswer = ShuffeledAnswers.IndexOf(ActiveQuestion.CorrectAnswer);
+
+        for (var i = 0; i < ShuffeledAnswers.Count; i++)
+        {
+            ButtonMouseOverBackgroundColors[i] = "Red";
+            ButtonBackgroundColors[i] = "Red";
+        }
+
+        ButtonMouseOverBackgroundColors[indexOfCorrectAnswer] = "Green";
+        ButtonBackgroundColors[indexOfCorrectAnswer] = "Green";
+        await Task.Delay(2000);
+
+        for (var i = 0; i < ShuffeledAnswers.Count; i++)
+        {
+            ButtonMouseOverBackgroundColors[i] = "DarkOrange";
+            ButtonBackgroundColors[i] = "WhiteSmoke";
+        }
+
+        await Task.Delay(50);
+    }
+
+    public void ShuffleAnswersForActiveQuestion(Question question)
+    {
+        Random random = new();
+        var allAnswers = question.IncorrectAnswers.ToList();
+        allAnswers.Add(question.CorrectAnswer);
+        var randomizedList = allAnswers.OrderBy(x => random.Next()).ToList();
+        ShuffeledAnswers = new ObservableCollection<string>(randomizedList);
+    }
+
+    public void LoadNextQuestion()
+    {
+        if (IndexOfActiveQuestion < ActivePack.Questions.Count)
+        {
+            TimeLeft = ActivePack.TimeLimitSeconds;
+            ActiveQuestion = ActivePack.Questions[IndexOfActiveQuestion];
+            ShuffleAnswersForActiveQuestion(ActiveQuestion);
+            IndexOfActiveQuestion++;
+        }
+        else
+        {
+            _mainWindowViewModel.ShowResultsView();
         }
     }
 }

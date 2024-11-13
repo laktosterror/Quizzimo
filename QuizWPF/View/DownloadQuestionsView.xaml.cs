@@ -1,28 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
-namespace QuizWPF.View
+namespace QuizWPF.View;
+
+/// <summary>
+///     Interaction logic for DownloadQuestionsView.xaml
+/// </summary>
+public partial class DownloadQuestionsView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for DownloadQuestionsView.xaml
-    /// </summary>
-    public partial class DownloadQuestionsView : UserControl
+    public DownloadQuestionsView()
     {
-        public DownloadQuestionsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

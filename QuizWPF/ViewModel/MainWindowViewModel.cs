@@ -11,32 +11,11 @@ namespace QuizWPF.ViewModel;
 
 public class MainWindowViewModel : ViewModelBase
 {
-
-    public ISnackbarService snackbarService { get; set; }
-
-    public DelegateCommand ShowImporterViewCommand { get; }
-    public DelegateCommand ShowPlayViewCommand { get; }
-    public DelegateCommand ShowConfigurationViewCommand { get; }
-    public DelegateCommand ExitApplicationCommand { get; }
-    public DelegateCommand ShowMenuCommand { get; }
-    public DelegateCommand AddPackCommand { get; }
-    public DelegateCommand RemovePackCommand { get; }
-    public DelegateCommand SetActivePackCommand { get; }
-    public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
-    public FileReader FileReader {get; set;}
-    public OpenTriviaClient? OpenTriviaClient { get; set;}
-
-    public ImporterViewModel ImporterViewModel { get; set; }
-    public ImporterView ImporterView { get; }
-    public ConfigurationViewModel ConfigurationViewModel { get; set; }
-    public ConfigurationView ConfigurationView { get; }
-    public PlayerViewModel? PlayerViewModel { get; set; }
-    public PlayerView PlayerView { get; }
-    private UserControl? _currentView;
     private QuestionPackViewModel? _activePack;
     private Visibility _collapsibleMenuVisibility;
+    private UserControl? _currentView;
 
-    public MainWindowViewModel( ISnackbarService snackbarService)
+    public MainWindowViewModel(ISnackbarService snackbarService)
     {
         this.snackbarService = snackbarService;
 
@@ -69,15 +48,26 @@ public class MainWindowViewModel : ViewModelBase
         CurrentView = PlayerView;
     }
 
+    public ISnackbarService snackbarService { get; set; }
 
-    private void SetActivePack(object obj)
-    {
-        if (obj is QuestionPackViewModel selectedPack)
-        {
-            ActivePack = selectedPack;
+    public DelegateCommand ShowImporterViewCommand { get; }
+    public DelegateCommand ShowPlayViewCommand { get; }
+    public DelegateCommand ShowConfigurationViewCommand { get; }
+    public DelegateCommand ExitApplicationCommand { get; }
+    public DelegateCommand ShowMenuCommand { get; }
+    public DelegateCommand AddPackCommand { get; }
+    public DelegateCommand RemovePackCommand { get; }
+    public DelegateCommand SetActivePackCommand { get; }
+    public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
+    public FileReader FileReader { get; set; }
+    public OpenTriviaClient? OpenTriviaClient { get; set; }
 
-        }
-    }
+    public ImporterViewModel ImporterViewModel { get; set; }
+    public ImporterView ImporterView { get; }
+    public ConfigurationViewModel ConfigurationViewModel { get; set; }
+    public ConfigurationView ConfigurationView { get; }
+    public PlayerViewModel? PlayerViewModel { get; set; }
+    public PlayerView PlayerView { get; }
 
     public UserControl CurrentView
     {
@@ -88,6 +78,7 @@ public class MainWindowViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
+
     public Visibility CollapsibleMenuVisibility
     {
         get => _collapsibleMenuVisibility;
@@ -102,19 +93,27 @@ public class MainWindowViewModel : ViewModelBase
     {
         get => _activePack;
         set
-        {          
+        {
             _activePack = value;
             RaisePropertyChanged();
 
             ReloadCurrentView();
         }
     }
+
+
+    private void SetActivePack(object obj)
+    {
+        if (obj is QuestionPackViewModel selectedPack) ActivePack = selectedPack;
+    }
+
     private void ShowImporterView(object obj)
     {
         PlayerViewModel.Timer.Stop();
 
         CurrentView = new ImporterView(ImporterViewModel);
     }
+
     private void ShowPlayView(object obj)
     {
         PlayerViewModel = new PlayerViewModel(this);
@@ -127,6 +126,7 @@ public class MainWindowViewModel : ViewModelBase
 
         CurrentView = new ResultsView(PlayerViewModel);
     }
+
     private void ShowConfigurationView(object obj)
     {
         PlayerViewModel.Timer.Stop();
@@ -153,18 +153,14 @@ public class MainWindowViewModel : ViewModelBase
                 ShowPlayView(null);
                 break;
         }
-
     }
+
     private void ToggleMenu(object obj)
     {
         if (CollapsibleMenuVisibility == Visibility.Visible)
-        {
             CollapsibleMenuVisibility = Visibility.Collapsed;
-        }
         else
-        {
             CollapsibleMenuVisibility = Visibility.Visible;
-        }
     }
 
     private void ExitApplication(object obj)
@@ -183,32 +179,33 @@ public class MainWindowViewModel : ViewModelBase
     {
         var newPackModel = new QuestionPack("New Question Pack");
         var newPack = new QuestionPackViewModel(newPackModel);
-        newPack.Questions.Add(new Question("Why is the sky so blue?", "Dont worry about it!", "Blue is not a color!", "What about the colorblind?", "Something with light."));
+        newPack.Questions.Add(new Question("Why is the sky so blue?", "Dont worry about it!", "Blue is not a color!",
+            "What about the colorblind?", "Something with light."));
         Packs.Insert(0, newPack);
         ActivePack = Packs.FirstOrDefault();
-
     }
 
     public void ShowSuccessSnackbarMessage(string title, string message)
     {
         snackbarService.Show(title,
-                              message,
-                              ControlAppearance.Success,
-                              new SymbolIcon(SymbolRegular.Checkmark24), TimeSpan.FromSeconds(3));
+            message,
+            ControlAppearance.Success,
+            new SymbolIcon(SymbolRegular.Checkmark24), TimeSpan.FromSeconds(3));
     }
+
     public void ShowWarningSnackbarMessage(string title, string message)
     {
         snackbarService.Show(title,
-                              message,
-                              ControlAppearance.Caution,
-                              new SymbolIcon(SymbolRegular.ErrorCircle24), TimeSpan.FromSeconds(4));
+            message,
+            ControlAppearance.Caution,
+            new SymbolIcon(SymbolRegular.ErrorCircle24), TimeSpan.FromSeconds(4));
     }
 
     public void ShowErrorSnackbarMessage(string title, string message)
     {
         snackbarService.Show(title,
-                              message,
-                              ControlAppearance.Danger,
-                              new SymbolIcon(SymbolRegular.Warning24), TimeSpan.FromSeconds(5));
+            message,
+            ControlAppearance.Danger,
+            new SymbolIcon(SymbolRegular.Warning24), TimeSpan.FromSeconds(5));
     }
 }
