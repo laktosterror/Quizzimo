@@ -5,6 +5,7 @@
 
 # intellij
 .idea
+/.idea/
 
 # User-specific files
 *.rsuser
