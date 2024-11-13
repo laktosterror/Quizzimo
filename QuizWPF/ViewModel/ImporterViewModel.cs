@@ -19,6 +19,7 @@ namespace QuizWPF.ViewModel
         public QuestionPackViewModel? ActivePack => _mainWindowViewModel?.ActivePack;
         public DispatcherTimer Timer { get; }
 
+        private bool PreviousIsOnlineState;
 
         public DelegateCommand ImportQuestionsCommand { get; }
         public ObservableCollection<Difficulty> Difficulties { get; }
@@ -119,6 +120,21 @@ namespace QuizWPF.ViewModel
         private void ConnectionTick(object sender, EventArgs e)
         {
             CheckInternetConnection();
+
+            if (IsOnline && SelectedTriviaCategory == null)
+            {
+                LoadCategoriesAsync();
+            }
+
+            if (IsOnline && !PreviousIsOnlineState)
+            {
+                _mainWindowViewModel.ShowSuccessSnackbarMessage("Success", "You are online again!");
+            }
+
+            if (!IsOnline && PreviousIsOnlineState)
+            {
+                _mainWindowViewModel.ShowErrorSnackbarMessage("Failure", "You are offline!");
+            }
         }
 
 
@@ -134,11 +150,13 @@ namespace QuizWPF.ViewModel
                     // Send a GET request to a reliable website
                     HttpResponseMessage response = client.GetAsync("http://www.google.com").Result;
 
+                    PreviousIsOnlineState = IsOnline;
                     IsOnline = true;
                 }
             }
             catch
             {
+                PreviousIsOnlineState = IsOnline;
                 IsOnline = false;
             }
         }
