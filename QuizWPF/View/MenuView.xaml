@@ -34,7 +34,9 @@
                 <Separator/>
                 
                 <MenuItem Header="_Import Questions"
-                          Icon="{ui:SymbolIcon Symbol=ArrowDownload20}"/>
+                          Icon="{ui:SymbolIcon Symbol=ArrowDownload20}"
+                          Command="{Binding ShowImporterViewCommand}"
+                          InputGestureText="Ctrl+I"/>
                 <Separator/>
                 <MenuItem Header="_Exit"
                           Icon="{ui:SymbolIcon Symbol=ArrowExit20}"

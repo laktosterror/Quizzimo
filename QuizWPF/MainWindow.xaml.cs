@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using QuizWPF.Model;
 using QuizWPF.ViewModel;
+using Wpf.Ui;
 
 namespace QuizWPF;
 
@@ -18,13 +19,19 @@ namespace QuizWPF;
 /// </summary>
 public partial class MainWindow : Window
 {
+
+    public ISnackbarService snackbarService { get; set; }
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new MainWindowViewModel();
+        snackbarService = new SnackbarService();
+        snackbarService.SetSnackbarPresenter(SnackbarPresenter);
+
+        DataContext = new MainWindowViewModel(snackbarService);
 
         // tillåt fönstermove
         ContentGrid.MouseDown += ContentGrid_MouseDown;
+
     }
 
     private void ContentGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
 using System.Net;
 using System.Text.Json.Serialization;
+using System.CodeDom;
+using System.Net.Mail;
 
 namespace QuizWPF.Model
 {

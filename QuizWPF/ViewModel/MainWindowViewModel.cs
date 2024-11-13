@@ -4,11 +4,16 @@ using System.Windows.Controls;
 using QuizWPF.Command;
 using QuizWPF.Model;
 using QuizWPF.View;
+using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace QuizWPF.ViewModel;
 
 public class MainWindowViewModel : ViewModelBase
 {
+
+    public ISnackbarService snackbarService { get; set; }
+
     public DelegateCommand ShowImporterViewCommand { get; }
     public DelegateCommand ShowPlayViewCommand { get; }
     public DelegateCommand ShowConfigurationViewCommand { get; }
@@ -19,7 +24,7 @@ public class MainWindowViewModel : ViewModelBase
     public DelegateCommand SetActivePackCommand { get; }
     public ObservableCollection<QuestionPackViewModel> Packs { get; set; }
     public FileReader FileReader {get; set;}
-    public OpenTriviaClient OpenTriviaClient { get; set;}
+    public OpenTriviaClient? OpenTriviaClient { get; set;}
 
     public ImporterViewModel ImporterViewModel { get; set; }
     public ImporterView ImporterView { get; }
@@ -31,8 +36,10 @@ public class MainWindowViewModel : ViewModelBase
     private QuestionPackViewModel? _activePack;
     private Visibility _collapsibleMenuVisibility;
 
-    public MainWindowViewModel()
+    public MainWindowViewModel( ISnackbarService snackbarService)
     {
+        this.snackbarService = snackbarService;
+
         FileReader = new FileReader(@"./data.json");
         var loadedPacks = FileReader.ReadFromFileAsync();
 
@@ -67,7 +74,8 @@ public class MainWindowViewModel : ViewModelBase
     {
         if (obj is QuestionPackViewModel selectedPack)
         {
-            ActivePack = selectedPack; 
+            ActivePack = selectedPack;
+
         }
     }
 
@@ -145,6 +153,7 @@ public class MainWindowViewModel : ViewModelBase
                 ShowPlayView(null);
                 break;
         }
+
     }
     private void ToggleMenu(object obj)
     {
@@ -178,5 +187,28 @@ public class MainWindowViewModel : ViewModelBase
         Packs.Insert(0, newPack);
         ActivePack = Packs.FirstOrDefault();
 
+    }
+
+    public void ShowSuccessSnackbarMessage(string title, string message)
+    {
+        snackbarService.Show(title,
+                              message,
+                              ControlAppearance.Success,
+                              new SymbolIcon(SymbolRegular.Checkmark24), TimeSpan.FromSeconds(3));
+    }
+    public void ShowWarningSnackbarMessage(string title, string message)
+    {
+        snackbarService.Show(title,
+                              message,
+                              ControlAppearance.Caution,
+                              new SymbolIcon(SymbolRegular.ErrorCircle24), TimeSpan.FromSeconds(4));
+    }
+
+    public void ShowErrorSnackbarMessage(string title, string message)
+    {
+        snackbarService.Show(title,
+                              message,
+                              ControlAppearance.Danger,
+                              new SymbolIcon(SymbolRegular.Warning24), TimeSpan.FromSeconds(5));
     }
 }
