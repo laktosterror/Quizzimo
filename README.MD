@@ -1,3 +1,3 @@
-﻿﻿##  Quizzimo
+﻿##  Quizzimo
 
-![preview](https://github.com/laktosterror/Quizzimo/blob/main/demo/demo.gif)
+![preview](https://github.com/laktosterror/Quizzimo/blob/main/QuizWPF/demo/demo.gif)
